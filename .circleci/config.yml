@@ -1,0 +1,94 @@
+version: 2
+
+npm_install: &npm_install
+  name: NPM Install
+  command: |
+    npm set progress=false
+    sudo npm install -g npm@6.2.0
+    npm -v
+    npm config set always-auth true
+    # ARTIFACTORY_AUTH_TOKEN is generated like so:
+    # echo -ne <circleci-bot-account-username>:<artifactory-encrypted-password> | base64
+    npm config set _auth $ARTIFACTORY_NPM_TOKEN
+    npm ci --fetch-retries=1
+
+merge_with_latest: &merge_with_latest
+  name: Rebase with the latest
+  command: |
+    # To make sure tests pass with the latest code merged in
+    # we'll rebase onto master and fail if we have a conflict
+    if [[ $CIRCLE_BRANCH != master ]]; then
+      git fetch origin master
+      # required to prevent "fatal: empty ident name" error
+      git config --global user.email "circleci@pagerduty.com"
+      git config --global user.name "circleci"
+      git merge --no-edit origin/master
+      if [[ $? -ne 0 ]]; then
+        echo "We can't merge the latest code with your code because of a merge conflict! Please pull the master branch locally and merge it into your branch. Then git push that to trigger another CI run."
+        exit 1
+      fi
+    fi
+
+jobs:
+  run_tests:
+    docker:
+      - image: circleci/node:8.11.1
+
+    steps:
+      - checkout
+
+      - run:
+          name: Info
+          command: |
+            echo "Node version"
+            echo $(node --version)
+      # Increment this version number to manually bust the cache
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+
+      - run:
+          <<: *npm_install
+
+      - run:
+          name: Run tests
+          command: npm run test:ci
+          environment:
+            JEST_JUNIT_OUTPUT: "test-results/run_tests/js-test-results.xml"
+      - store_test_results:
+          path: test-results
+
+  eslint:
+    docker:
+      - image: circleci/node:8.11.1
+
+    steps:
+      - checkout
+
+      - run:
+          name: Info
+          command: |
+            echo "Node version"
+            echo $(node --version)
+      # Increment this version number to manually bust the cache
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+
+      - run:
+          <<: *npm_install
+
+      - run:
+          name: ESLint
+          command: npm run lint:ci
+      - store_test_results:
+          path: test-results
+
+# https://circleci.com/docs/2.0/workflows/
+workflows:
+ version: 2
+ testing:
+   jobs:
+    - run_tests:
+        context: PagerDuty
+    - eslint:
+        context: PagerDuty
+

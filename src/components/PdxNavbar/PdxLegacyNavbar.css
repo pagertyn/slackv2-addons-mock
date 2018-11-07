@@ -1,0 +1,98 @@
+.legacy.navbar {
+  background-color: #1F293A !important;
+  min-height: 50px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.legacy.navbar .navbar-brand {
+  background-image: url(https://d1qpmdev1yki74.cloudfront.net/assets/images/logos/logo-39894368de16a8ea3e915fb5a55e27ec.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  text-indent: -9999px;
+  width: 116px;
+}
+
+.legacy.navbar .nav-item {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.legacy.navbar .nav-item:hover,
+.legacy.navbar .nav-item:active {
+  background-color: #3a4c6c;
+  color: #fff !important;
+}
+
+.legacy.navbar .nav-link {
+  color: #b3b3b3 !important;
+  font-size: 13px !important;
+}
+
+.legacy.navbar .nav-link:hover,
+.legacy.navbar .nav-link:active {
+  background-color: #3a4c6c;
+  color: #fff !important;
+}
+
+.legacy.navbar .nav-link:hover .badge-default,
+.legacy.navbar .nav-link:active .badge-default {
+  background-color: #1F293A;
+  color: #fff !important;
+}
+
+.legacy.navbar .dropdown-menu {
+  font-size: 13px !important;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: 1px solid #3a4c6c;
+}
+
+.legacy.navbar .dropdown-menu.dark {
+  background-color: #1F293A !important;
+}
+
+.legacy.navbar .dropdown-menu.dark .dropdown-item {
+  color: #fff;
+}
+
+.legacy.navbar .dropdown-menu.dark .dropdown-item:hover,
+.legacy.navbar .dropdown-menu.dark .dropdown-item:focus,
+.legacy.navbar .dropdown-menu.dark .dropdown-item:active {
+  background-color: #3a4c6c;
+  color: #fff;
+}
+
+.legacy.navbar .badge-dark {
+  background-color: #555;
+}
+
+.legacy.navbar .badge-default {
+  background-color: #3a4c6c;
+  color: #fff;
+  font-weight: bold;
+}
+
+.question-mark {
+  display: inline-block;
+  border-radius: 50%;
+  padding-left: 6px;
+  padding-right: 6px;
+
+  background: #b3b3b3;
+  color: #1F293A;
+  font-weight: bold;
+}
+
+.question-mark-badge {
+  margin-right: 6px;
+}
+
+.red-dot {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: #a60000;
+  margin-left: 5px;
+}

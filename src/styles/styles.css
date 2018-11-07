@@ -1,0 +1,79 @@
+/* TODO: Move to PDS */
+.pdx-loading__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdx-loading__spinner {
+    height: 72px;
+    width: 72px;
+    padding: 20px;
+    fill:var(--green);
+    animation: spin-stepped 1s steps(8, end) infinite;
+}
+
+.pdx-loading__inline {
+    display: inline-block;
+    vertical-align: -8%;
+}
+
+.pdx-loading--inline__spinner {
+      padding: 0 2px;
+      height: 1em;
+      width: 1em;
+}
+
+@keyframes spin-stepped {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}
+
+body, html {
+  height: 100%;
+  background: #F5F5F5;
+}
+
+#root {
+  background-color: #efefef;
+  height: 100%;
+}
+
+/* Add space between form-groups on an inline form. */
+.form-inline .form-group ~ .form-group {
+  margin-left: 16px;
+}
+
+/* Make form-group a column for label-above-input look */
+.form-inline .form-group {
+  flex-direction: column;
+  align-items: start;
+}
+
+.max-width-2 {
+  max-width: 13rem;
+}
+
+.nav-global.nav-global-hover .dropdown-toggle::after {
+  right: 10px;
+}
+
+.nav-global-footer {
+  background: none;
+}
+
+.nav-global-footer-user {
+  padding: 0;
+}
+
+.user__avatar {
+  margin-right: .5rem;
+}
+
+.nav-divider {
+  margin: 1rem 0 1.5rem;
+}
