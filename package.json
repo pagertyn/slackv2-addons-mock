@@ -22,6 +22,10 @@
   "scripts": {
     "start": "REACT_APP_ENV=development react-scripts start",
     "build": "react-scripts build",
+    "build:ci:staging": "PUBLIC_URL=\"https://d30g1epxm0pa0g.cloudfront.net/react-skeleton/$CIRCLE_SHA1\" react-scripts build",
+    "build:ci:production": "PUBLIC_URL=\"https://d30g1epxm0pa0g.cloudfront.net/react-skeleton\" react-scripts build",
+    "deploy:staging": "npm run build:ci:staging && aws s3 cp build/ s3://pd-frontendcore-stg/react-skeleton/$CIRCLE_SHA1 --recursive --acl public-read --cache-control 'max-age=0, no-cache'",
+    "deploy:production": "npm run build:ci:production && aws s3 cp build/ s3://pd-frontendcore-stg/react-skeleton --recursive --acl public-read --cache-control 'max-age=0, no-cache'",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --ci --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject",

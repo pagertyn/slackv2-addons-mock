@@ -82,6 +82,62 @@ jobs:
       - store_test_results:
           path: test-results
 
+  deploy_staging:
+    docker:
+      - image: circleci/node:8.11.1
+
+    steps:
+      - checkout
+
+      - run:
+          name: Info
+          command: |
+            echo "Node version"
+            echo $(node --version)
+      # Increment this version number to manually bust the cache
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+
+      - run:
+          <<: *npm_install
+
+      - run:
+          name: Install awscli
+          command: |
+            sudo apt-get update && sudo apt-get install -y awscli
+      - run:
+          name: Deploy
+          command: |
+            npm run deploy:staging
+
+  deploy_production:
+    docker:
+      - image: circleci/node:8.11.1
+
+    steps:
+      - checkout
+
+      - run:
+          name: Info
+          command: |
+            echo "Node version"
+            echo $(node --version)
+      # Increment this version number to manually bust the cache
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+
+      - run:
+          <<: *npm_install
+
+      - run:
+          name: Install awscli
+          command: |
+            sudo apt-get update && sudo apt-get install -y awscli
+      - run:
+          name: Deploy
+          command: |
+            npm run deploy:production
+
 # https://circleci.com/docs/2.0/workflows/
 workflows:
  version: 2
@@ -91,4 +147,13 @@ workflows:
         context: PagerDuty
     - eslint:
         context: PagerDuty
+    - deploy_staging:
+        context: PagerDuty
+    - deploy_production:
+        context: PagerDuty
+        requires:
+          - run_tests
+        filters:
+          branches:
+            only: master
 

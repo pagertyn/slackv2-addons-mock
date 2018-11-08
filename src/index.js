@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import App from './views/App';
-import * as serviceWorker from './util/serviceWorker';
 import Pretender from 'pretender';
 import config from './config/app';
 import axios from 'axios';
@@ -26,4 +25,3 @@ if (config.PRETENDER) {
 }
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
-serviceWorker.unregister();
