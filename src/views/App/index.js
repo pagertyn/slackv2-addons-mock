@@ -33,7 +33,7 @@ class App extends Component {
 const mapStateToProps = state => ({
   currentUser: state.currentUser.user,
   isFetching: state.currentUser.isFetching,
-  isError: state.currentUser.isError
+  isError: state.currentUser.error !== null
 });
 const mapActionsToProps = { loadCurrentUserData };
 export default connect(mapStateToProps,mapActionsToProps)(App);
