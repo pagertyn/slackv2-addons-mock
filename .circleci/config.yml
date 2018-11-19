@@ -1,54 +1,44 @@
-version: 2
+version: 2.1
 
-npm_install: &npm_install
-  name: NPM Install
-  command: |
-    npm set progress=false
-    sudo npm install -g npm@6.2.0
-    npm -v
-    npm config set always-auth true
-    # ARTIFACTORY_AUTH_TOKEN is generated like so:
-    # echo -ne <circleci-bot-account-username>:<artifactory-encrypted-password> | base64
-    npm config set _auth $ARTIFACTORY_NPM_TOKEN
-    npm ci --fetch-retries=1
-
-merge_with_latest: &merge_with_latest
-  name: Rebase with the latest
-  command: |
-    # To make sure tests pass with the latest code merged in
-    # we'll rebase onto master and fail if we have a conflict
-    if [[ $CIRCLE_BRANCH != master ]]; then
-      git fetch origin master
-      # required to prevent "fatal: empty ident name" error
-      git config --global user.email "circleci@pagerduty.com"
-      git config --global user.name "circleci"
-      git merge --no-edit origin/master
-      if [[ $? -ne 0 ]]; then
-        echo "We can't merge the latest code with your code because of a merge conflict! Please pull the master branch locally and merge it into your branch. Then git push that to trigger another CI run."
-        exit 1
-      fi
-    fi
-
-jobs:
-  run_tests:
-    docker:
-      - image: circleci/node:8.11.1
-
+commands:
+  info:
+    description: "Prints info about the environment."
     steps:
-      - checkout
-
       - run:
           name: Info
           command: |
-            echo "Node version"
-            echo $(node --version)
-      # Increment this version number to manually bust the cache
-      - restore_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
-
+            echo "Node: $(node --version)"
+            echo "npm: $(npm --version)"
+            echo "\$CIRCLE_SHA1: $CIRCLE_SHA1"
+            echo "\$CIRCLE_BRANCH: $CIRCLE_BRANCH"
+  npm_install:
+    description: "Runs npm install ci to get dependencies."
+    steps:
+      # For some reason this is always a cache miss, and we use `npm install ci` anyway.
+      # - restore_cache:
+      #     # Increment this version number to manually bust the cache
+      #     key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
-          <<: *npm_install
-
+          name: npm install
+          command: |
+            npm set progress=false
+            sudo npm install -g npm@6.2.0
+            npm -v
+            npm config set always-auth true
+            # ARTIFACTORY_AUTH_TOKEN is generated like so:
+            # echo -ne <circleci-bot-account-username>:<artifactory-encrypted-password> | base64
+            npm config set _auth $ARTIFACTORY_NPM_TOKEN
+            npm ci --fetch-retries=1
+  install_aws_cli:
+    description: "Installs aws cli to upload files to an S3 bucket."
+    steps:
+      - run:
+          name: Install awscli
+          command: |
+            sudo apt-get update && sudo apt-get install -y awscli
+  test:
+    description: "Runs the tests and store the results."
+    steps:
       - run:
           name: Run tests
           command: npm run test:ci
@@ -56,104 +46,101 @@ jobs:
             JEST_JUNIT_OUTPUT: "test-results/run_tests/js-test-results.xml"
       - store_test_results:
           path: test-results
-
-  eslint:
-    docker:
-      - image: circleci/node:8.11.1
-
+  lint:
+    description: "Runs the linter and store the results."
     steps:
-      - checkout
-
       - run:
-          name: Info
-          command: |
-            echo "Node version"
-            echo $(node --version)
-      # Increment this version number to manually bust the cache
-      - restore_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
-
-      - run:
-          <<: *npm_install
-
-      - run:
-          name: ESLint
+          name: Run linter
           command: npm run lint:ci
       - store_test_results:
           path: test-results
-
-  deploy_staging:
-    docker:
-      - image: circleci/node:8.11.1
-
+  deploy:
+    description: "Deploys the code."
+    parameters:
+      to:
+        description: "Deploy to staging or production."
+        type: string
+        default: staging
     steps:
-      - checkout
-
-      - run:
-          name: Info
-          command: |
-            echo "Node version"
-            echo $(node --version)
-      # Increment this version number to manually bust the cache
-      - restore_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
-
-      - run:
-          <<: *npm_install
-
-      - run:
-          name: Install awscli
-          command: |
-            sudo apt-get update && sudo apt-get install -y awscli
       - run:
           name: Deploy
           command: |
-            npm run deploy:staging
+            npm run deploy:<< parameters.to >>
+  # # This is unused currently
+  # merge_with_latest:
+  #   description: "Merges this branch with the latest from master."
+  #   steps:
+  #     - run:
+  #         name: Rebase with the latest
+  #         command: |
+  #           # To make sure tests pass with the latest code merged in
+  #           # we'll rebase onto master and fail if we have a conflict
+  #           if [[ $CIRCLE_BRANCH != master ]]; then
+  #             git fetch origin master
+  #             # required to prevent "fatal: empty ident name" error
+  #             git config --global user.email "circleci@pagerduty.com"
+  #             git config --global user.name "circleci"
+  #             git merge --no-edit origin/master
+  #             if [[ $? -ne 0 ]]; then
+  #               echo "We can't merge the latest code with your code because of a merge conflict! Please pull the master branch locally and merge it into your branch. Then git push that to trigger another CI run."
+  #               exit 1
+  #             fi
+  #           fi
 
-  deploy_production:
+jobs:
+  run_tests:
     docker:
       - image: circleci/node:8.11.1
-
     steps:
+      - info
       - checkout
+      - npm_install
+      - test
 
-      - run:
-          name: Info
-          command: |
-            echo "Node version"
-            echo $(node --version)
-      # Increment this version number to manually bust the cache
-      - restore_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+  run_linter:
+    docker:
+      - image: circleci/node:8.11.1
+    steps:
+      - info
+      - checkout
+      - npm_install
+      - lint
 
-      - run:
-          <<: *npm_install
-
-      - run:
-          name: Install awscli
-          command: |
-            sudo apt-get update && sudo apt-get install -y awscli
-      - run:
-          name: Deploy
-          command: |
-            npm run deploy:production
+  run_deploy:
+    docker:
+      - image: circleci/node:8.11.1
+    parameters:
+      to:
+        description: "Deploy to staging or production."
+        type: string
+        default: "staging"
+    steps:
+      - info
+      - checkout
+      - npm_install
+      - install_aws_cli
+      - deploy:
+          to: << parameters.to >>
 
 # https://circleci.com/docs/2.0/workflows/
 workflows:
- version: 2
- testing:
-   jobs:
-    - run_tests:
-        context: PagerDuty
-    - eslint:
-        context: PagerDuty
-    - deploy_staging:
-        context: PagerDuty
-    - deploy_production:
-        context: PagerDuty
-        requires:
-          - run_tests
-        filters:
-          branches:
-            only: master
-
+  version: 2
+  testing:
+    jobs:
+      - run_tests:
+          context: PagerDuty
+      - run_linter:
+          context: PagerDuty
+      - run_deploy:
+          to: staging
+          name: deploy_to_staging
+          context: PagerDuty
+      - run_deploy:
+          to: production
+          name: deploy_to_production
+          context: PagerDuty
+          requires:
+            - run_tests
+          filters:
+            branches:
+              only: master
