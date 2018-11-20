@@ -17,7 +17,7 @@ describe('loadCurrentUserData', () => {
 
   it('should dispatch proper actions and call proper functions if api returns error', () => {
     const errorPayload = { error: 'fail!' };
-    global.console = { error: jest.fn() };
+    window.console = { error: jest.fn() };
     currentUserUtilMock.getCurrentUserData.mockRejectedValue(errorPayload);
 
     const expectedActions = [
