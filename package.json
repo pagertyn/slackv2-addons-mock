@@ -29,9 +29,9 @@
     "test": "react-scripts test",
     "test:ci": "react-scripts test --ci --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject",
-    "lint": "eslint src/",
-    "lint:ci": "eslint src/ --format junit -o test-results/eslint/eslint-results.xml",
-    "lint-fix": "eslint src/ --fix"
+    "lint": "eslint . --ext .js . --ext .jsx",
+    "lint:ci": "npm run lint -- --format junit -o test-results/eslint/eslint-results.xml",
+    "lint-fix": "npm run lint -- --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
