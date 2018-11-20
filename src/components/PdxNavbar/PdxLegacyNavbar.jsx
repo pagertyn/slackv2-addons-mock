@@ -9,7 +9,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Badge } from 'reactstrap';
+  Badge
+} from 'reactstrap';
 
 import './PdxLegacyNavbar.css';
 
@@ -38,7 +39,9 @@ const PdxLegacyNavbar = ({ currentUser }) => (
             Services
           </DropdownItem>
           <DropdownItem>
-            Event Rules <Badge color="dark">New</Badge>
+            Event Rules
+            {' '}
+            <Badge color="dark">New</Badge>
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
@@ -52,7 +55,9 @@ const PdxLegacyNavbar = ({ currentUser }) => (
             Operations Health
           </DropdownItem>
           <DropdownItem>
-            Operational Reviews <Badge color="dark">New</Badge>
+            Operational Reviews
+            {' '}
+            <Badge color="dark">New</Badge>
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem>
@@ -78,7 +83,9 @@ const PdxLegacyNavbar = ({ currentUser }) => (
           Community Discussions
         </DropdownItem>
         <DropdownItem>
-          What&apos;s New in PagerDuty <span className="red-dot"></span>
+          What&apos;s New in PagerDuty
+          {' '}
+          <span className="red-dot" />
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>

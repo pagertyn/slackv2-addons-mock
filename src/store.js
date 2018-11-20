@@ -1,8 +1,10 @@
 import thunk from 'redux-thunk';
-import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
+import {
+  applyMiddleware, compose, createStore, combineReducers
+} from 'redux';
 import currentUser from './reducers/current-user';
 
-let allReducers = combineReducers({
+const allReducers = combineReducers({
   currentUser
 });
 

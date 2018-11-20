@@ -2,7 +2,7 @@ import { s3Settings, url } from './deployment';
 import developmentConfig from './development';
 import environmentVariables from '../scripts/environment-variables';
 
-let config = {
+let environmentSpecificConfig = {
   APP_KEY: 'react-skeleton',
   APP_NAME: 'React Skeleton',
   FEATURE_FLAG: 'react_skeleton',
@@ -14,8 +14,10 @@ let config = {
   url
 };
 
-if (config.ENVIRONMENT === 'development') {
-  config = { ...config, ...developmentConfig };
+if (environmentSpecificConfig.ENVIRONMENT === 'development') {
+  environmentSpecificConfig = { ...environmentSpecificConfig, ...developmentConfig };
 }
+
+const config = environmentSpecificConfig;
 
 export default config;
