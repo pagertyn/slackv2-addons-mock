@@ -1,32 +1,32 @@
 export default {
-  'current_user':{
-    'name':'Some User',
-    'email':'someuser@pagerduty.com',
-    'time_zone':'America/New_York',
-    'color':'midnight-blue',
-    'avatar_url':'https://secure.gravatar.com/avatar/21e204e34914c10fc225a1537337aad6.png?d=mm&r=PG',
-    'billed':true,
-    'role':'user',
-    'description':null,
-    'invitation_sent':false,
-    'job_title':null,
-    'id':'ABCDEFG',
-    'type':'user',
-    'summary':'Some User',
-    'can_see_entire_account':false,
-    'can_see_operational_reviews':true,
-    'can_create_configure_archive_operational_reviews':true
+  current_user: {
+    name: 'Some User',
+    email: 'someuser@pagerduty.com',
+    time_zone: 'America/New_York',
+    color: 'midnight-blue',
+    avatar_url: 'https://secure.gravatar.com/avatar/21e204e34914c10fc225a1537337aad6.png?d=mm&r=PG',
+    billed: true,
+    role: 'user',
+    description: null,
+    invitation_sent: false,
+    job_title: null,
+    id: 'ABCDEFG',
+    type: 'user',
+    summary: 'Some User',
+    can_see_entire_account: false,
+    can_see_operational_reviews: true,
+    can_create_configure_archive_operational_reviews: true
   },
-  'current_account':{
-    'id':'PFIGZHD',
-    'subdomain':'pdt-circular',
-    'name':'PagerDuty Internal Alerts',
-    'time_zone':'America/Los_Angeles',
-    'state':'active',
-    'plan':'paid'
+  current_account: {
+    id: 'PFIGZHD',
+    subdomain: 'pdt-circular',
+    name: 'PagerDuty Internal Alerts',
+    time_zone: 'America/Los_Angeles',
+    state: 'active',
+    plan: 'paid'
   },
-  'account_features':{
-    'features':[
+  account_features: {
+    features: [
       'ack_as_assignment',
       'advanced_event_actions',
       'advanced_reports',
@@ -138,5 +138,5 @@ export default {
       'enterprise'
     ]
   },
-  'permissions':{}
+  permissions: {}
 };

@@ -27,10 +27,12 @@ const PdxPaginator = ({ pageCount, currentPage, onChange }) => {
   );
 };
 
-const QuickPaginationLink = ({ pageNumber, onClick, active, disabled, previous, next, children }) => (
+const QuickPaginationLink = ({
+  pageNumber, onClick, active, disabled, previous, next, children
+}) => (
   <PaginationItem active={active} disabled={disabled}>
-    <PaginationLink previous={previous} next={next} onClick={() => { onClick && onClick(pageNumber);}}>
-      { children ? children : pageNumber}
+    <PaginationLink previous={previous} next={next} onClick={() => { onClick && onClick(pageNumber); }}>
+      { children || pageNumber}
     </PaginationLink>
   </PaginationItem>
 );

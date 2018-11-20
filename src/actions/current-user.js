@@ -43,7 +43,6 @@ export function loadCurrentUserData() {
 
       const currentUser = new UserModel(currentUserData);
       dispatch(updateCurrentUser(currentUser));
-
     } catch (error) {
       console.error(error);
       dispatch(currentUserFetchError(error));

@@ -11,7 +11,6 @@ const ROLES = [
 ];
 
 export default class UserModel {
-
   constructor(props) {
     this.id = null;
     this.name = null;
@@ -33,22 +32,36 @@ export default class UserModel {
 
   // Role functions
   isAccountOwner() { return this.role === 'owner'; }
+
   isAdmin() { return this.role === 'admin'; }
+
   isReadOnly() { return this.role === 'read_only_user'; }
+
   isRestrictedUser() { return this.role === 'restricted_access'; }
-  isSpoofed() { return this.spoofOrigin ? true : false; }
+
+  isSpoofed() { return !!this.spoofOrigin; }
+
   roleIsUserOrGreater() { return this._roleIsAtLeast('user'); }
+
   roleIsAdminOrGreater() { return this._roleIsAtLeast('admin'); }
 
   // Account functions
   isExpired() { return this.state === 'expired'; }
+
   isTrial() { return this.state === 'trial'; }
+
   isActive() { return this.state === 'active'; }
+
   isLocked() { return this.state === 'locked'; }
+
   isLite() { return this.plan.match('/^lite(.*)$/'); }
+
   isStarter() { return this.plan.match('/^starter(.*)$/'); }
+
   isStandard() { return this.plan.match('/^standard(.*)$/'); }
+
   isEnterprise() { return this.plan.match('/^enterprise(.*)$/'); }
+
   subdomainIsPDT() { return this.subdomain.substr(0, 4) === 'pdt-'; }
 
   renderUserInfo() {
