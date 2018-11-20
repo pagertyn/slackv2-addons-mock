@@ -12,7 +12,7 @@ import { setAxiosDefaults } from './util/ajax';
 import '@pagerduty/design-system/dist/standalone.css';
 import './styles/styles.css';
 
-import feDataPretender from './pretender/fe-data.js';
+import feDataPretender from './pretender/fe-data';
 
 setAxiosDefaults(axios);
 

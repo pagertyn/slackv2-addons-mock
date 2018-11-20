@@ -1,46 +1,10 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const PdxPaginator = ({ pageCount, currentPage, onChange }) => {
-  if (pageCount < 1 || currentPage < 1 || currentPage > pageCount) {
-    return null;
-  }
-
-  const { firstVisiblePageNumber, lastVisiblePageNumber } = getFirstAndLastVisiblePageNumbers(pageCount, currentPage);
-  const pagesBefore = getPaginationLinksFrom(firstVisiblePageNumber, currentPage - 1, onChange);
-  const pagesAfter = getPaginationLinksFrom(currentPage + 1, lastVisiblePageNumber, onChange);
-
-  return (
-    <Pagination>
-      <QuickPaginationLink previous disabled={currentPage === 1} pageNumber={currentPage - 1} onClick={onChange}>
-        Prev
-      </QuickPaginationLink>
-
-      {pagesBefore}
-      <QuickPaginationLink active pageNumber={currentPage} />
-      {pagesAfter}
-
-      <QuickPaginationLink next disabled={currentPage === pageCount} pageNumber={currentPage + 1} onClick={onChange}>
-        Next
-      </QuickPaginationLink>
-    </Pagination>
-  );
-};
-
-const QuickPaginationLink = ({
-  pageNumber, onClick, active, disabled, previous, next, children
-}) => (
-  <PaginationItem active={active} disabled={disabled}>
-    <PaginationLink previous={previous} next={next} onClick={() => { onClick && onClick(pageNumber); }}>
-      { children || pageNumber}
-    </PaginationLink>
-  </PaginationItem>
-);
-
 const getPaginationLinksFrom = (start, end, onClick) => {
   const paginationLinks = [];
 
-  for (let pageNumber = start; pageNumber <= end; pageNumber++) {
+  for (let pageNumber = start; pageNumber <= end; pageNumber += 1) {
     paginationLinks.push((
       <QuickPaginationLink key={pageNumber} pageNumber={pageNumber} onClick={onClick} />
     ));
@@ -77,6 +41,60 @@ const getFirstAndLastVisiblePageNumbers = (pageCount, currentPage) => {
     lastVisiblePageNumber: Math.min(currentPage + numPagesAfter, pageCount)
   };
 };
+
+const PdxPaginator = ({ pageCount, currentPage, onChange }) => {
+  if (pageCount < 1 || currentPage < 1 || currentPage > pageCount) {
+    return null;
+  }
+
+  const {
+    firstVisiblePageNumber,
+    lastVisiblePageNumber
+  } = getFirstAndLastVisiblePageNumbers(pageCount, currentPage);
+  const pagesBefore = getPaginationLinksFrom(firstVisiblePageNumber, currentPage - 1, onChange);
+  const pagesAfter = getPaginationLinksFrom(currentPage + 1, lastVisiblePageNumber, onChange);
+
+  return (
+    <Pagination>
+      <QuickPaginationLink
+        previous
+        disabled={currentPage === 1}
+        pageNumber={currentPage - 1}
+        onClick={onChange}
+      >
+        Prev
+      </QuickPaginationLink>
+
+      {pagesBefore}
+      <QuickPaginationLink active pageNumber={currentPage} />
+      {pagesAfter}
+
+      <QuickPaginationLink
+        next
+        disabled={currentPage === pageCount}
+        pageNumber={currentPage + 1}
+        onClick={onChange}
+      >
+        Next
+      </QuickPaginationLink>
+    </Pagination>
+  );
+};
+
+const QuickPaginationLink = ({
+  pageNumber, onClick, active, disabled, previous, next, children
+}) => (
+  <PaginationItem active={active} disabled={disabled}>
+    <PaginationLink
+      previous={previous}
+      next={next}
+      onClick={() => onClick && onClick(pageNumber)}
+    >
+      { children || pageNumber}
+    </PaginationLink>
+  </PaginationItem>
+);
+
 
 export default PdxPaginator;
 export { getFirstAndLastVisiblePageNumbers };
