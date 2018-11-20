@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: 0 */
+
 import config from '../config/app';
 
 export const setAxiosDefaults = (axios) => {
@@ -5,3 +7,5 @@ export const setAxiosDefaults = (axios) => {
   axios.defaults.headers.common['X-PagerDuty-Api-Local'] = 1;
   axios.defaults.headers.common.Accept = 'application/vnd.pagerduty+json;version=2';
 };
+
+export default setAxiosDefaults;

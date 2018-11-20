@@ -6,7 +6,8 @@ import {
 
 export default function currentUserReducer(
   state = { user: {}, isFetching: false, error: null },
-  action) {
+  action
+) {
   switch (action.type) {
     case UPDATE_CURRENT_USER:
       return { ...state, user: action.payload, isFetching: false };
