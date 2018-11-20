@@ -1,12 +1,12 @@
-import getFeData from '../util/fe-data';
+import getFeData from './fe-data';
 import config from '../config/app';
-import { redirectTo } from '../util/general';
+import { redirectTo } from './general';
 import {
   getCurrentUserData,
   redirectToSignIn,
   checkSignedIn,
   checkHasFeature
-} from '../util/current-user';
+} from './current-user';
 
 jest.mock('../util/fe-data.js');
 jest.mock('../util/general.js');

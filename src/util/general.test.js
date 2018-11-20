@@ -96,11 +96,10 @@ describe('setNamedProperties', () => {
 
 describe('redirectTo', () => {
   let originalLocationAssign = null;
-  let mockLocationAssign = null;
 
   beforeEach(() => {
     originalLocationAssign = window.location.assign;
-    window.location.assign = mockLocationAssign = jest.fn();
+    window.location.assign = jest.fn();
   });
 
   afterEach(() => {
@@ -110,8 +109,8 @@ describe('redirectTo', () => {
   it('should call assign on window.location', () => {
     const href = 'some href';
     redirectTo(href);
-    expect(mockLocationAssign).toHaveBeenCalledTimes(1);
-    expect(mockLocationAssign).toHaveBeenCalledWith(href);
+    expect(window.location.assign).toHaveBeenCalledTimes(1);
+    expect(window.location.assign).toHaveBeenCalledWith(href);
   });
 });
 
@@ -126,7 +125,7 @@ describe('reduceArrayToObject', () => {
     expect(obj[arrayItem2.id]).toEqual(arrayItem2);
   });
 
-  it(`should throw if the objects in the array don't have an id property`, () => {
+  it('should throw if the objects in the array don\'t have an id property', () => {
     const arrayItem1 = { propA: 'ok' };
     const arrayItem2 = { propB: 'aok' };
     const arr = [arrayItem1, arrayItem2];

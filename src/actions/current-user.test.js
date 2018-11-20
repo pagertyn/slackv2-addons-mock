@@ -1,9 +1,9 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import * as actions from './current-user';
 import feDataMock from '../pretender/fe-data.data';
 import UserModel from '../models/user-model';
 import * as currentUserUtilMock from '../util/current-user';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 jest.mock('../util/current-user.js');
 
