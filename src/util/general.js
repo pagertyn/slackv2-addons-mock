@@ -19,10 +19,13 @@ const capitalize = (word) => {
 };
 
 export const redirectTo = (href) => {
-  window.location.href = href;
+  window.location.assign(href);
 };
 
 export const reduceArrayToObject = (accumulator, element) => {
+  if (!element) {throw new Error('Array element cannot be null.');}
+  if (element && element.id == null) {throw new Error('Array elements must have an id property.');}
+
   accumulator[element.id] = element;
   return accumulator;
 };
