@@ -22,8 +22,8 @@ class App extends Component {
     if (this.props.isError) { return (<div>An error occurred while fetching data</div>); }
     return (
       <WithNavbar currentUser={this.props.currentUser}>
-        {this.state.loaded &&
-          <h1 className="display-1 text-center mt-5">Your app here!</h1>
+        {this.state.loaded
+          && <h1 className="display-1 text-center mt-5">Your app here!</h1>
         }
       </WithNavbar>
     );
