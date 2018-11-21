@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadCurrentUserData } from '../../actions/current-user';
+import { fetchCurrentUser } from '../../actions/current-user';
 import PdxLoading from '../../components/PdxLoading';
 import WithNavbar from '../../components/PdxNavbar/WithNavbar';
 
@@ -13,7 +13,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await this.props.loadCurrentUserData();
+    await this.props.fetchCurrentUser();
     this.setState({ loaded: true });
   }
 
@@ -22,17 +22,18 @@ class App extends Component {
     if (this.props.isError) { return (<div>An error occurred while fetching data</div>); }
     return (
       <WithNavbar currentUser={this.props.currentUser}>
-        {this.state.loaded && <div>Your app here!</div>}
+        {this.state.loaded &&
+          <h1 className="display-1 text-center mt-5">Your app here!</h1>
+        }
       </WithNavbar>
     );
   }
 }
-
 
 const mapStateToProps = state => ({
   currentUser: state.currentUser.user,
   isFetching: state.currentUser.isFetching,
   isError: state.currentUser.isError
 });
-const mapActionsToProps = { loadCurrentUserData };
+const mapActionsToProps = { fetchCurrentUser };
 export default connect(mapStateToProps, mapActionsToProps)(App);

@@ -1,7 +1,7 @@
 import {
-  UPDATE_CURRENT_USER,
-  FETCH_CURRENT_USER,
-  CURRENT_USER_FETCH_ERROR
+  FETCH_CURRENT_USER_REQUEST,
+  FETCH_CURRENT_USER_SUCCESS,
+  FETCH_CURRENT_USER_ERROR
 } from '../actions/current-user';
 
 export default function currentUserReducer(
@@ -9,11 +9,11 @@ export default function currentUserReducer(
   action
 ) {
   switch (action.type) {
-    case UPDATE_CURRENT_USER:
-      return { ...state, user: action.payload, isFetching: false };
-    case FETCH_CURRENT_USER:
+    case FETCH_CURRENT_USER_REQUEST:
       return { ...state, error: null, isFetching: true };
-    case CURRENT_USER_FETCH_ERROR:
+    case FETCH_CURRENT_USER_SUCCESS:
+      return { ...state, user: action.payload, isFetching: false };
+    case FETCH_CURRENT_USER_ERROR:
       return { ...state, error: action.payload, isFetching: false };
     default:
       return state;

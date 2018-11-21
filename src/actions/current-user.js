@@ -6,34 +6,34 @@ import {
   checkHasFeature
 } from '../util/current-user';
 
-export const UPDATE_CURRENT_USER = 'updateCurrentUser';
-export const FETCH_CURRENT_USER = 'fetchCurrentUser';
-export const CURRENT_USER_FETCH_ERROR = 'currentUserFetchError';
+export const FETCH_CURRENT_USER_REQUEST = 'fetchCurrentUserRequest';
+export const FETCH_CURRENT_USER_SUCCESS = 'fetchCurrentUserSuccess';
+export const FETCH_CURRENT_USER_ERROR = 'fetchCurrentUserError';
 
-export function updateCurrentUser(user) {
+function fetchRequest() {
   return {
-    type: UPDATE_CURRENT_USER,
+    type: FETCH_CURRENT_USER_REQUEST
+  };
+}
+
+function fetchSuccess(user) {
+  return {
+    type: FETCH_CURRENT_USER_SUCCESS,
     payload: user
   };
 }
 
-export function fetchCurrentUser() {
+function fetchError(error) {
   return {
-    type: FETCH_CURRENT_USER
-  };
-}
-
-export function currentUserFetchError(error) {
-  return {
-    type: CURRENT_USER_FETCH_ERROR,
+    type: FETCH_CURRENT_USER_ERROR,
     payload: error
   };
 }
 
-export function loadCurrentUserData() {
+export function fetchCurrentUser() {
   return async (dispatch) => {
     try {
-      dispatch(fetchCurrentUser());
+      dispatch(fetchRequest());
 
       const { data: currentUserData } = await getCurrentUserData();
 
@@ -42,10 +42,10 @@ export function loadCurrentUserData() {
       checkHasFeature(currentUserData);
 
       const currentUser = new UserModel(currentUserData);
-      dispatch(updateCurrentUser(currentUser));
+      dispatch(fetchSuccess(currentUser));
     } catch (error) {
       console.error(error);
-      dispatch(currentUserFetchError(error));
+      dispatch(fetchError(error));
       redirectToSignIn();
     }
   };
