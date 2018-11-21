@@ -39,7 +39,7 @@ export default class UserModel {
 
   isRestrictedUser() { return this.role === 'restricted_access'; }
 
-  isSpoofed() { return !!this.spoofOrigin; }
+  isSpoofed() { return Boolean(this.spoofOrigin); }
 
   roleIsUserOrGreater() { return this._roleIsAtLeast('user'); }
 
