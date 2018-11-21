@@ -10,23 +10,23 @@ jest.mock('../util/current-user.js');
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('loadCurrentUserData', () => {
+describe('fetchCurrentUser', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
   it('should dispatch proper actions and call proper functions if api returns error', () => {
     const errorPayload = { error: 'fail!' };
-    window.console = { error: jest.fn() };
+    global.console = { error: jest.fn() };
     currentUserUtilMock.getCurrentUserData.mockRejectedValue(errorPayload);
 
     const expectedActions = [
-      { type: actions.FETCH_CURRENT_USER },
-      { type: actions.CURRENT_USER_FETCH_ERROR, payload: errorPayload }
+      { type: actions.FETCH_CURRENT_USER_REQUEST },
+      { type: actions.FETCH_CURRENT_USER_ERROR, payload: errorPayload }
     ];
     const store = mockStore({});
 
-    return store.dispatch(actions.loadCurrentUserData()).then(() => {
+    return store.dispatch(actions.fetchCurrentUser()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
       expect(currentUserUtilMock.checkSignedIn).toHaveBeenCalledTimes(0);
       expect(currentUserUtilMock.checkHasFeature).toHaveBeenCalledTimes(0);
@@ -42,12 +42,12 @@ describe('loadCurrentUserData', () => {
     });
 
     const expectedActions = [
-      { type: actions.FETCH_CURRENT_USER },
-      { type: actions.UPDATE_CURRENT_USER, payload: new UserModel(feDataMock) }
+      { type: actions.FETCH_CURRENT_USER_REQUEST },
+      { type: actions.FETCH_CURRENT_USER_SUCCESS, payload: new UserModel(feDataMock) }
     ];
     const store = mockStore({});
 
-    return store.dispatch(actions.loadCurrentUserData()).then(() => {
+    return store.dispatch(actions.fetchCurrentUser()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
       expect(currentUserUtilMock.checkSignedIn).toHaveBeenCalledTimes(1);
       expect(currentUserUtilMock.checkHasFeature).toHaveBeenCalledTimes(1);
