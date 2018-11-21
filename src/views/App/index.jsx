@@ -5,7 +5,6 @@ import PdxLoading from '../../components/PdxLoading';
 import WithNavbar from '../../components/PdxNavbar/WithNavbar';
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -36,4 +35,4 @@ const mapStateToProps = state => ({
   isError: state.currentUser.error !== null
 });
 const mapActionsToProps = { loadCurrentUserData };
-export default connect(mapStateToProps,mapActionsToProps)(App);
+export default connect(mapStateToProps, mapActionsToProps)(App);

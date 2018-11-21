@@ -1,9 +1,5 @@
-import data from './fe-data.data.js';
+import data from './fe-data.data';
 
-const feDataPretender = function() { // need `this`, so don't use arrow function here
-  this.get('/fe-data', request => {
-    return [200, { 'Content-Type': 'application/json' }, JSON.stringify(data)];
-  });
-};
-
-export default feDataPretender;
+export default function () { // need `this`, so don't use arrow function here
+  this.get('/fe-data', () => [200, { 'Content-Type': 'application/json' }, JSON.stringify(data)]);
+}

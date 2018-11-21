@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import Pretender from 'pretender';
+import axios from 'axios';
 import store from './store';
 import App from './views/App';
-import Pretender from 'pretender';
 import config from './config/app';
-import axios from 'axios';
 import { setAxiosDefaults } from './util/ajax';
 
 // Include CSS
 import '@pagerduty/design-system/dist/standalone.css';
 import './styles/styles.css';
 
-import feDataPretender from './pretender/fe-data.js';
+import feDataPretender from './pretender/fe-data';
 
 setAxiosDefaults(axios);
 
