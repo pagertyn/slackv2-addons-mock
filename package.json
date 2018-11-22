@@ -29,10 +29,14 @@
 
     "test:ci": "npm run test -- --ci --reporters=default --reporters=jest-junit",
     "lint:ci": "npm run lint -- --format junit -o test-results/eslint/eslint-results.xml",
-    "deploy:ci": "npm run build && npm run copy-to-s3 && npm run activate-version",
 
-    "deploy:staging":    "env-cmd config/deploy.staging.js bash -c \"npm run build && npm run copy-to-s3 && npm run activate-version\"",
-    "deploy:production": "env-cmd config/deploy.production.js bash -c \"npm run build && npm run copy-to-s3 && npm run activate-version\"",
+    "predeploy:staging":  "env-cmd config/deploy.staging.js npm run build",
+    "deploy:staging":     "env-cmd config/deploy.staging.js npm run copy-to-s3",
+    "postdeploy:staging": "env-cmd config/deploy.staging.js npm run activate-version",
+
+    "predeploy:production":  "env-cmd config/deploy.production.js npm run build",
+    "deploy:production":     "env-cmd config/deploy.production.js npm run copy-to-s3",
+    "postdeploy:production": "env-cmd config/deploy.production.js npm run activate-version",
 
     "copy-to-s3": "aws s3 cp build/ $DEPLOY_TO --recursive --acl public-read --cache-control 'max-age=0, no-cache'",
     "activate-version": "echo $COMMIT_SHA >> sha.txt && aws s3 cp sha.txt $DEPLOY_VERSION_FILE_TO --acl public-read",
