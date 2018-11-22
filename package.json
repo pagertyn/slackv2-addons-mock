@@ -7,6 +7,7 @@
     "@pagerduty/eslint-plugin-pagerduty": "3.1.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.1.3",
+    "env-cmd": "8.0.2",
     "jest-junit": "5.2.0",
     "pretender": "2.1.1",
     "react": "^16.5.2",
@@ -22,17 +23,20 @@
   "scripts": {
     "start": "REACT_APP_ENV=development react-scripts start",
     "build": "react-scripts build",
-    "build:ci:staging": "PUBLIC_URL=\"https://d30g1epxm0pa0g.cloudfront.net/react-skeleton/$CIRCLE_SHA1\" react-scripts build",
-    "build:ci:production": "PUBLIC_URL=\"https://d30g1epxm0pa0g.cloudfront.net/react-skeleton\" react-scripts build",
-    "deploy:staging": "npm run build:ci:staging && aws s3 cp build/ s3://pd-frontendcore-stg/react-skeleton/$CIRCLE_SHA1 --recursive --acl public-read --cache-control 'max-age=0, no-cache' && npm run activate-version:staging",
-    "deploy:production": "npm run build:ci:production && aws s3 cp build/ s3://pd-frontendcore-stg/react-skeleton --recursive --acl public-read --cache-control 'max-age=0, no-cache'",
-    "activate-version:staging": "echo $CIRCLE_SHA1 >> sha.txt && aws s3 cp sha.txt s3://pd-frontendcore-stg/react-skeleton/versions/$CIRCLE_BRANCH.txt --acl public-read",
     "test": "react-scripts test",
-    "test:ci": "react-scripts test --ci --reporters=default --reporters=jest-junit",
-    "eject": "react-scripts eject",
     "lint": "eslint . --ext .js . --ext .jsx",
+    "lint-fix": "npm run lint -- --fix",
+
+    "test:ci": "npm run test -- --ci --reporters=default --reporters=jest-junit",
     "lint:ci": "npm run lint -- --format junit -o test-results/eslint/eslint-results.xml",
-    "lint-fix": "npm run lint -- --fix"
+
+    "deploy:staging":    "env-cmd config/deploy.staging.js     npm run build && npm run copy-to-s3 && npm run activate-version",
+    "deploy:production": "env-cmd config/deploy.production.js  npm run build && npm run copy-to-s3 && npm run activate-version",
+
+    "copy-to-s3": "aws s3 cp build/ $DEPLOY_TO --recursive --acl public-read --cache-control 'max-age=0, no-cache'",
+    "activate-version": "echo $COMMIT_SHA >> sha.txt && aws s3 cp sha.txt $DEPLOY_VERSION_FILE_TO --acl public-read",
+
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
