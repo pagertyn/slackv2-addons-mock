@@ -1,4 +1,4 @@
-4const { OFF, WARN, ERROR } = require('@pagerduty/eslint-plugin-pagerduty/lib/levels');
+const { OFF, WARN, ERROR } = require('@pagerduty/eslint-plugin-pagerduty/lib/levels');
 
 module.exports = {
   root: true,

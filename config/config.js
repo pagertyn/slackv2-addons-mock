@@ -7,4 +7,4 @@ module.exports = {
   production: {
     s3Bucket: 'pd-frontendcore-stg'
   }
-}
+};
