@@ -29,9 +29,10 @@
 
     "test:ci": "npm run test -- --ci --reporters=default --reporters=jest-junit",
     "lint:ci": "npm run lint -- --format junit -o test-results/eslint/eslint-results.xml",
+    "deploy": "npm run build && npm run copy-to-s3 && npm run activate-version",
 
-    "deploy:staging":    "env-cmd config/deploy.staging.js     \"npm run build && npm run copy-to-s3 && npm run activate-version\"",
-    "deploy:production": "env-cmd config/deploy.production.js  \"npm run build && npm run copy-to-s3 && npm run activate-version\"",
+    "deploy:staging":    "env-cmd config/deploy.staging.js npm run deploy",
+    "deploy:production": "env-cmd config/deploy.production.js npm run deploy",
 
     "copy-to-s3": "aws s3 cp build/ $DEPLOY_TO --recursive --acl public-read --cache-control 'max-age=0, no-cache'",
     "activate-version": "echo $COMMIT_SHA >> sha.txt && aws s3 cp sha.txt $DEPLOY_VERSION_FILE_TO --acl public-read",
