@@ -20,9 +20,6 @@
     "redux-mock-store": "1.5.3",
     "redux-thunk": "2.3.0"
   },
-  "config": {
-    "appkey": "react-skeleton"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -33,11 +30,11 @@
     "test:ci": "npm run test -- --ci --reporters=default --reporters=jest-junit",
     "lint:ci": "npm run lint -- --format junit -o test-results/eslint/eslint-results.xml",
 
-    "predeploy:staging":  "env-cmd deploy/staging.js npm run build",
+    "predeploy:staging":  "env-cmd deploy/staging.js npm build",
     "deploy:staging":     "env-cmd deploy/staging.js npm run copy-to-s3",
     "postdeploy:staging": "env-cmd deploy/staging.js npm run activate-version",
 
-    "predeploy:production":  "env-cmd deploy/production.js npm run build",
+    "predeploy:production":  "env-cmd deploy/production.js npm build",
     "deploy:production":     "env-cmd deploy/production.js npm run copy-to-s3",
     "postdeploy:production": "env-cmd deploy/production.js npm run activate-version",
 
