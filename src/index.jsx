@@ -16,7 +16,7 @@ import feDataPretender from './pretender/fe-data';
 
 setAxiosDefaults(axios);
 
-if (config.PRETENDER) {
+if (config.ENVIRONMENT === 'development') {
   // must use `new Pretender` so it rigs itself up, but we don't need the instance
   // eslint-disable-next-line no-new
   new Pretender(
