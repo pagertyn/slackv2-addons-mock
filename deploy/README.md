@@ -4,7 +4,7 @@ Certain environment variables need to be set during a build to get correct outpu
 
 ## What is the PUBLIC_URL variable?
 
-The build come from Create React App's `react-scripts`. Their command needs a PUBLIC_URL environment variable set, so links and assets have the right urls on staging and production. If we don't set it, urls will be relative to pagerduty.com, rather than going to s3.
+The build comes from Create React App's `react-scripts`. Their command needs a PUBLIC_URL environment variable set, so links and assets have the right urls on staging and production. If we don't set it, urls will be relative to pagerduty.com, rather than going to s3.
 
 ## Testing
 

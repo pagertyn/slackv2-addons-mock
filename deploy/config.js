@@ -1,8 +1,13 @@
+errorMessage = (envVariable, itShouldContain) => `
+  The environment variable ${envVariable} is required, and should contain ${itShouldContain}.
+  Normally this is provided by CI. If you are running this locally, see the Testing section of README.md.
+`
+
 if (!process.env.CIRCLE_SHA1) {
-  throw new Error('You must provide the environment variable CIRCLE_SHA1 containing the latest git sha you are deploying.');
+  throw new Error(errorMessage('CIRCLE_SHA1', 'the git sha you are deploying'));
 }
 if (!process.env.CIRCLE_BRANCH) {
-  throw new Error('You must provide the environment variable CIRCLE_BRANCH containing the git branch you are deploying.');
+  throw new Error(errorMessage('CIRCLE_BRANCH', 'the name of the git branch you are deploying'));
 }
 
 const commitSha = process.env.CIRCLE_SHA1;
