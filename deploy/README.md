@@ -1,6 +1,6 @@
 # Build and Deploy
 
-This folder contains a deploy scripts called `deploy.sh`. It is meant to be run from the skeleton's `package.json` file. It depends on a number of environment variables, and is normally run by CI. The script builds the app, copies the output to s3, and updates a file on s3 to "activate" the version.
+This folder contains a deploy script called `deploy.sh`. It is meant to be run from the skeleton's `package.json` file. It depends on a number of environment variables, and is normally run by CI. The script builds the app, copies the output to s3, and updates a file on s3 to "activate" the version.
 
 ## Configuration
 
