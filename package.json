@@ -28,8 +28,8 @@
     "lint-fix": "npm run lint -- --fix",
     "test:ci": "npm run test -- --ci --reporters=default --reporters=jest-junit",
     "lint:ci": "npm run lint -- --format junit -o test-results/eslint/eslint-results.xml",
-    "deploy:staging": "env-cmd deploy/staging.config.js deploy/deploy.sh",
-    "deploy:production": "env-cmd deploy/production.config.js deploy/deploy.sh",
+    "deploy:staging": "env-cmd deploy/config.staging.js deploy/deploy.sh",
+    "deploy:production": "env-cmd deploy/config.production.js deploy/deploy.sh",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
