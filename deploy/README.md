@@ -11,7 +11,7 @@ The build comes from Create React App's `react-scripts`. Their command needs a P
 To test these configurations, you will always need to provide some environment variables. You can copy and paste these commands into your terminal to make things easier.
 
 You can test using `node` by logging the config:
-```CIRCLE_SHA1=abc CIRCLE_BRANCH=br npm_package_config_appkey=someapp node -e "console.log(require('./deploy/staging.js'))"```
+```CIRCLE_SHA1=abc CIRCLE_BRANCH=br node -e "console.log(require('./deploy/staging.js'))"```
 
 You can test using `env-cmd` just like `package.json` does. Then `printenv` can show you an environment variable.
-```CIRCLE_SHA1=abc CIRCLE_BRANCH=br npm_package_config_appkey=someapp npx env-cmd deploy/staging.js printenv PUBLIC_URL```
+```CIRCLE_SHA1=abc CIRCLE_BRANCH=br npx env-cmd deploy/staging.js printenv PUBLIC_URL```

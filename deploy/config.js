@@ -1,5 +1,5 @@
-errorMessage = (envVariable, itShouldContain) => `
-  The environment variable ${envVariable} is required, and should contain ${itShouldContain}.
+errorMessage = (envVariable, shouldContain) => `
+  The environment variable ${envVariable} is required, and should contain ${shouldContain}.
   Normally this is set by CI. If you are running this locally, see the Testing section of README.md.
 `
 
