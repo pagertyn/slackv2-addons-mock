@@ -1,7 +1,7 @@
-errorMessage = (envVariable, shouldContain) => `
+const errorMessage = (envVariable, shouldContain) => `
   The environment variable ${envVariable} is required, and should contain ${shouldContain}.
   Normally this is set by CI. If you are running this locally, see the Testing section of README.md.
-`
+`;
 
 if (!process.env.CIRCLE_SHA1) {
   throw new Error(errorMessage('CIRCLE_SHA1', 'the git sha you are deploying'));
