@@ -30,11 +30,11 @@
     "test:ci": "npm run test -- --ci --reporters=default --reporters=jest-junit",
     "lint:ci": "npm run lint -- --format junit -o test-results/eslint/eslint-results.xml",
 
-    "predeploy:staging":  "env-cmd deploy/staging.js npm build",
+    "predeploy:staging":  "env-cmd deploy/staging.js npm run build",
     "deploy:staging":     "env-cmd deploy/staging.js npm run copy-to-s3",
     "postdeploy:staging": "env-cmd deploy/staging.js npm run activate-version",
 
-    "predeploy:production":  "env-cmd deploy/production.js npm build",
+    "predeploy:production":  "env-cmd deploy/production.js npm run build",
     "deploy:production":     "env-cmd deploy/production.js npm run copy-to-s3",
     "postdeploy:production": "env-cmd deploy/production.js npm run activate-version",
 
