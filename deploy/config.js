@@ -1,6 +1,6 @@
 errorMessage = (envVariable, itShouldContain) => `
   The environment variable ${envVariable} is required, and should contain ${itShouldContain}.
-  Normally this is provided by CI. If you are running this locally, see the Testing section of README.md.
+  Normally this is set by CI. If you are running this locally, see the Testing section of README.md.
 `
 
 if (!process.env.CIRCLE_SHA1) {
@@ -14,11 +14,12 @@ const commitSha = process.env.CIRCLE_SHA1;
 const branch = process.env.CIRCLE_BRANCH;
 
 module.exports = {
-  cloudfrontUrl: 'https://d30g1epxm0pa0g.cloudfront.net',
   staging: {
+    cloudfrontUrl: 'https://d30g1epxm0pa0g.cloudfront.net',
     s3Bucket: 'pd-frontendcore-stg'
   },
   production: {
+    cloudfrontUrl: 'https://d30g1epxm0pa0g.cloudfront.net',
     s3Bucket: 'pd-frontendcore-stg'
   },
   s3Folder: 'react-skeleton',
