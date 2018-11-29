@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { PdxLoading, WithNavbar } from '@pagerduty/pd-react-components';
 import { fetchCurrentUser } from '../../actions/current-user';
-import PdxLoading from '../../components/PdxLoading';
-import WithNavbar from '../../components/PdxNavbar/WithNavbar';
 
 class App extends Component {
   constructor(props) {
@@ -18,7 +17,13 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.isFetching) { return <PdxLoading />; }
+    if (this.props.isFetching) {
+      return (
+        <div className="pd-full-page d-flex align-items-center justify-content-center">
+          <PdxLoading />
+        </div>
+      );
+    }
     if (this.props.isError) { return (<div>An error occurred while fetching data</div>); }
     return (
       <WithNavbar currentUser={this.props.currentUser}>

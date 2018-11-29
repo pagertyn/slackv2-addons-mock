@@ -1,36 +1,6 @@
-/* TODO: Move to PDS */
-.pdx-loading__container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pdx-loading__spinner {
-    height: 72px;
-    width: 72px;
-    padding: 20px;
-    fill:var(--green);
-    animation: spin-stepped 1s steps(8, end) infinite;
-}
-
-.pdx-loading__inline {
-    display: inline-block;
-    vertical-align: -8%;
-}
-
-.pdx-loading--inline__spinner {
-      padding: 0 2px;
-      height: 1em;
-      width: 1em;
-}
-
-@keyframes spin-stepped {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+.pd-full-page {
+  width: 100vw;
+  height: 100vh;
 }
 
 body, html {
