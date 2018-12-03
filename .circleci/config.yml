@@ -36,8 +36,8 @@ commands:
           name: Install awscli
           command: |
             sudo apt-get update && sudo apt-get install -y awscli
-  test:
-    description: "Runs the tests and store the results."
+  jest_test:
+    description: "Runs the Jest tests and stores the results."
     steps:
       - run:
           name: Run tests
@@ -46,6 +46,22 @@ commands:
             JEST_JUNIT_OUTPUT: "test-results/run_tests/js-test-results.xml"
       - store_test_results:
           path: test-results
+  cypress_test:
+    description: "Runs the Cypress tests."
+    steps:
+      - run:
+          name: Run background server
+          command: npm run start
+          background: true
+      - run:
+          shell: /bin/sh
+          command: |
+            wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 10 http://localhost:3000
+            :
+      - run:
+          name: Run Cypress tests
+          command: npm run cypress-test:ci
+          when: on_success
   lint:
     description: "Runs the linter and store the results."
     steps:
@@ -88,14 +104,23 @@ commands:
   #           fi
 
 jobs:
-  run_tests:
+  run_jest_tests:
     docker:
       - image: circleci/node:8.11.1
     steps:
       - info
       - checkout
       - npm_install
-      - test
+      - jest_test
+
+  run_cypress_tests:
+    docker:
+      - image: circleci/node:latest-browsers
+    steps:
+      - info
+      - checkout
+      - npm_install
+      - cypress_test
 
   run_linter:
     docker:
@@ -127,7 +152,9 @@ workflows:
   version: 2
   testing:
     jobs:
-      - run_tests:
+      - run_jest_tests:
+          context: PagerDuty
+      - run_cypress_tests:
           context: PagerDuty
       - run_linter:
           context: PagerDuty
@@ -140,7 +167,8 @@ workflows:
           name: deploy_to_production
           context: PagerDuty
           requires:
-            - run_tests
+            - run_jest_tests
+            - run_cypress_tests
           filters:
             branches:
               only: master

@@ -8,7 +8,8 @@ module.exports = {
   extends: [
     'plugin:@pagerduty/pagerduty/javascript',
     'plugin:@pagerduty/pagerduty/react',
-    'plugin:@pagerduty/pagerduty/jest'
+    'plugin:@pagerduty/pagerduty/jest',
+    'plugin:@pagerduty/pagerduty/cypress'
   ],
   parserOptions: {
     ecmaVersion: 2018,
