@@ -2,7 +2,8 @@ import UserModel from '../models/user-model';
 import {
   getCurrentUserData,
   redirectToSignIn,
-  checkSignedIn,
+  checkUser,
+  checkSignedInByMetadata,
   checkHasFeature
 } from '../util/current-user';
 
@@ -33,12 +34,15 @@ function fetchError(error) {
 export function fetchCurrentUser() {
   return async (dispatch) => {
     try {
+      // verify that user-id and account-id are in page metadata, else redirect
+      checkSignedInByMetadata();
+
       dispatch(fetchRequest());
 
       const { data: currentUserData } = await getCurrentUserData();
 
-      // If auth fails, will be automatically redirected
-      checkSignedIn(currentUserData);
+      // User must exist, else automatic redirect
+      checkUser(currentUserData);
       checkHasFeature(currentUserData);
 
       const currentUser = new UserModel(currentUserData);

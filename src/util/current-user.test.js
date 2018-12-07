@@ -4,7 +4,8 @@ import { redirectTo } from './general';
 import {
   getCurrentUserData,
   redirectToSignIn,
-  checkSignedIn,
+  checkSignedInByMetadata,
+  checkUser,
   checkHasFeature
 } from './current-user';
 
@@ -30,21 +31,49 @@ describe('redirectToSignIn', () => {
   });
 });
 
-describe('checkSignedIn', () => {
+describe('checkSignedInByMetadata', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
   it('should return true and not redirect if development', () => {
     config.ENVIRONMENT = 'development';
-    const returnValue = checkSignedIn();
+    const returnValue = checkSignedInByMetadata();
+    expect(returnValue).toEqual(true);
+    expect(redirectTo).toHaveBeenCalledTimes(0);
+  });
+
+  it('should redirect if metadata values are not set', () => {
+    config.ENVIRONMENT = 'production';
+    checkSignedInByMetadata();
+    expect(redirectTo).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return true and not redirect if metadata values are set', () => {
+    config.ENVIRONMENT = 'production';
+    document.head.innerHTML = '<meta name="user-id" value="1234">';
+    document.head.innerHTML += '<meta name="account-id" value="3456">';
+
+    expect(checkSignedInByMetadata()).toEqual(true);
+    expect(redirectTo).toHaveBeenCalledTimes(0);
+  });
+});
+
+describe('checkUser', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should return true and not redirect if development', () => {
+    config.ENVIRONMENT = 'development';
+    const returnValue = checkUser();
     expect(returnValue).toEqual(true);
     expect(redirectTo).toHaveBeenCalledTimes(0);
   });
 
   it('should return true and not redirect if current_user.id and current_account.id exist', () => {
     config.ENVIRONMENT = 'production';
-    const returnValue = checkSignedIn({
+    const returnValue = checkUser({
       current_user: { id: 1234 },
       current_account: { id: 3456 }
     });
@@ -54,13 +83,13 @@ describe('checkSignedIn', () => {
 
   it('should redirect if no response is passed in', () => {
     config.ENVIRONMENT = 'production';
-    checkSignedIn();
+    checkUser();
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect if response is empty', () => {
     config.ENVIRONMENT = 'production';
-    checkSignedIn({});
+    checkUser({});
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
 });

@@ -10,7 +10,22 @@ export const redirectToSignIn = () => {
   redirectTo(signInUrl);
 };
 
-export const checkSignedIn = (response) => {
+export const checkSignedInByMetadata = () => {
+  if (config.ENVIRONMENT === 'development'
+      || (
+        document.querySelector('meta[name="user-id"]')
+        && document.querySelector('meta[name="user-id"]').attributes[1].value.length > 0
+        && document.querySelector('meta[name="account-id"]')
+        && document.querySelector('meta[name="account-id"]').attributes[1].value.length > 0
+      )
+  ) {
+    return true;
+  }
+  redirectToSignIn();
+  return false;
+};
+
+export const checkUser = (response) => {
   if (
     config.ENVIRONMENT === 'development'
     || (
