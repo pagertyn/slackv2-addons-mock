@@ -5,7 +5,7 @@ import Pretender from 'pretender';
 import axios from 'axios';
 import store from './store';
 import App from './views/App';
-import config from './config/app';
+import getEnvironment from './util/environment';
 import { setAxiosDefaults } from './util/ajax';
 
 // Include CSS
@@ -16,7 +16,7 @@ import feDataPretender from './pretender/fe-data';
 
 setAxiosDefaults(axios);
 
-if (config.ENVIRONMENT === 'development') {
+if (getEnvironment() === 'development') {
   // must use `new Pretender` so it rigs itself up, but we don't need the instance
   // eslint-disable-next-line no-new
   new Pretender(

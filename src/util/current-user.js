@@ -1,10 +1,14 @@
 import getFeData from './fe-data';
 import config from '../config/app';
 import { redirectTo } from './general';
+import getEnvironment from './environment';
 
 export const getCurrentUserData = async () => getFeData();
 
 export const redirectToSignIn = () => {
+  if (getEnvironment() === 'development') {
+    return;
+  }
   const path = window.location.pathname;
   const signInUrl = `/sign_in${path ? `?user_return_to=${path}` : ''}`;
   redirectTo(signInUrl);
