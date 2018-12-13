@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { PdxLoading, WithNavbar } from '@pagerduty/pd-react-components';
 import { fetchCurrentUser } from '../../actions/current-user';
+import getEnvironment from '../../util/environment';
+import appConfig from '../../config/app';
+import MainPage from '../MainPage';
+import SecondPage from '../SecondPage';
+
+const getBaseName = () => {
+  if (getEnvironment() === 'development') return '';
+  return appConfig.APP_NAME;
+};
 
 class App extends Component {
   constructor(props) {
@@ -28,7 +38,14 @@ class App extends Component {
     return (
       <WithNavbar currentUser={this.props.currentUser}>
         {this.state.loaded
-          && <h1 className="display-1 text-center mt-5">Your app here!</h1>
+          && (
+            <BrowserRouter basename={getBaseName()}>
+              <Switch>
+                <Route exact path="/" component={MainPage} />
+                <Route exact path="/second-page" component={SecondPage} />
+              </Switch>
+            </BrowserRouter>
+          )
         }
       </WithNavbar>
     );
