@@ -42,7 +42,7 @@ class MainPage extends Component {
               Take a look at the
               {' '}
               <a href="https://pagerduty.github.io/frontend-docs">PagerDuty Front-End Docs</a>
-              to get started.
+               to get started.
             </p>
             <p>
               Go to the
