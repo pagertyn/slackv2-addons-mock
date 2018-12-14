@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@pagerduty/design-system": "1.3.0",
+    "@pagerduty/design-system": "1.4.0",
     "@pagerduty/eslint-plugin-pagerduty": "3.3.0",
     "@pagerduty/pd-react-components": "1.2.0",
     "@percy/cypress": "0.2.3",
