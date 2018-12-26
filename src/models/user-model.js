@@ -27,6 +27,7 @@ export default class UserModel {
     this.state = null;
     this.features = [];
     this.permissions = {};
+    this.abilities = {};
     this.setProperties(props);
   }
 
@@ -77,11 +78,12 @@ export default class UserModel {
     setNamedProperties(this, props.current_user, userFields);
     this.permissions = props.permissions || {};
 
-    // set user account properties
+    // set account properties
     const accountFields = ['subdomain', 'plan', 'state'];
     setNamedProperties(this, props.current_account, accountFields);
     this.accountId = props.current_account.id;
     this.features = props.account_features.features || [];
+    this.abilities = props.account_abilities || {};
   }
 
   _roleIsAtLeast(targetRole) {
