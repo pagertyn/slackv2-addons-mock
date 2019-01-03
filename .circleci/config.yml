@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  git: pagerduty/git@0.0.1
-
 commands:
   info:
     description: "Prints info about the environment."
@@ -93,7 +90,6 @@ jobs:
     steps:
       - info
       - checkout
-      - git/rebase_on_master # To make sure tests pass with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - jest_test
 
@@ -103,7 +99,6 @@ jobs:
     steps:
       - info
       - checkout
-      - git/rebase_on_master # To make sure tests pass with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - cypress_test
 
@@ -113,7 +108,6 @@ jobs:
     steps:
       - info
       - checkout
-      - git/rebase_on_master # To make sure checks pass with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - lint
 
@@ -128,7 +122,6 @@ jobs:
     steps:
       - info
       - checkout
-      - git/rebase_on_master # To make sure deploy works with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - install_aws_cli
       - deploy:

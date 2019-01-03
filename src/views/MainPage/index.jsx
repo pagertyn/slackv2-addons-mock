@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { PdxLoading } from '@pagerduty/pd-react-components';
-import { Button, Row, Col } from 'reactstrap';
+import {
+  Button,
+  Row,
+  Card,
+  CardBody,
+  Col
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 class MainPage extends Component {
@@ -25,7 +31,7 @@ class MainPage extends Component {
     }
     return (
       <section className="p-4">
-        <Row>
+        <Row className="mb-2">
           <Col>
             <h1 className="h1">Hello World</h1>
           </Col>
@@ -37,19 +43,23 @@ class MainPage extends Component {
         </Row>
         <Row>
           <Col>
-            <p>Page content goes here.</p>
-            <p>
-              Take a look at the
-              {' '}
-              <a href="https://pagerduty.github.io/frontend-docs">PagerDuty Front-End Docs</a>
-               to get started.
-            </p>
-            <p>
-              Go to the
-              {' '}
-              <Link to="/second-page">second example page</Link>
-              .
-            </p>
+            <Card>
+              <CardBody>
+                <p>Main page content goes here inside this white box.</p>
+                <p>
+                  Read more about how to build apps in the
+                  {' '}
+                  <a href="https://pagerduty.github.io/frontend-docs">PagerDuty Front-End Docs</a>
+                  .
+                </p>
+                <p>
+                  Go to the
+                  {' '}
+                  <Link to="/second-page">second example page</Link>
+                  .
+                </p>
+              </CardBody>
+            </Card>
           </Col>
         </Row>
       </section>
