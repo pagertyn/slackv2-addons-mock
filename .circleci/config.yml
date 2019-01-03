@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  git: pagerduty/git@0.0.1
+
 commands:
   info:
     description: "Prints info about the environment."
@@ -82,26 +85,6 @@ commands:
           name: Deploy
           command: |
             npm run deploy:<< parameters.to >>
-# # This is unused currently
-  # merge_with_latest:
-  #   description: "Merges this branch with the latest from master."
-  #   steps:
-  #     - run:
-  #         name: Rebase with the latest
-  #         command: |
-  #           # To make sure tests pass with the latest code merged in
-  #           # we'll rebase onto master and fail if we have a conflict
-  #           if [[ $CIRCLE_BRANCH != master ]]; then
-  #             git fetch origin master
-  #             # required to prevent "fatal: empty ident name" error
-  #             git config --global user.email "circleci@pagerduty.com"
-  #             git config --global user.name "circleci"
-  #             git merge --no-edit origin/master
-  #             if [[ $? -ne 0 ]]; then
-  #               echo "We can't merge the latest code with your code because of a merge conflict! Please pull the master branch locally and merge it into your branch. Then git push that to trigger another CI run."
-  #               exit 1
-  #             fi
-  #           fi
 
 jobs:
   run_jest_tests:
@@ -110,6 +93,7 @@ jobs:
     steps:
       - info
       - checkout
+      - git/rebase_on_master # To make sure tests pass with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - jest_test
 
@@ -119,6 +103,7 @@ jobs:
     steps:
       - info
       - checkout
+      - git/rebase_on_master # To make sure tests pass with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - cypress_test
 
@@ -128,6 +113,7 @@ jobs:
     steps:
       - info
       - checkout
+      - git/rebase_on_master # To make sure checks pass with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - lint
 
@@ -142,6 +128,7 @@ jobs:
     steps:
       - info
       - checkout
+      - git/rebase_on_master # To make sure deploy works with the latest code merged in, rebase PRs onto master and fail if we have a conflict
       - npm_install
       - install_aws_cli
       - deploy:
