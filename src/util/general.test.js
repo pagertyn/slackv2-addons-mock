@@ -3,6 +3,9 @@ import {
   redirectTo,
   reduceArrayToObject
 } from './general';
+import getEnvironment from './environment';
+
+jest.mock('./environment.js');
 
 describe('setNamedProperties', () => {
   describe('success cases', () => {
@@ -111,6 +114,16 @@ describe('redirectTo', () => {
     redirectTo(href);
     expect(window.location.assign).toHaveBeenCalledTimes(1);
     expect(window.location.assign).toHaveBeenCalledWith(href);
+  });
+
+  it('should log the redirection and not redirect if in development', () => {
+    getEnvironment.mockReturnValue('development');
+    global.console = { debug: jest.fn() };
+
+    const href = 'some href';
+    redirectTo(href);
+    expect(window.location.assign).toHaveBeenCalledTimes(0);
+    expect(console.debug).toHaveBeenCalledTimes(1); // eslint-disable-line no-console
   });
 });
 

@@ -15,7 +15,7 @@ export const redirectToSignIn = () => {
 };
 
 export const checkSignedInByMetadata = () => {
-  if (config.ENVIRONMENT === 'development'
+  if (getEnvironment() === 'development'
       || (
         document.querySelector('meta[name="user-id"]')
         && document.querySelector('meta[name="user-id"]').attributes[1].value.length > 0
@@ -31,7 +31,7 @@ export const checkSignedInByMetadata = () => {
 
 export const checkUser = (response) => {
   if (
-    config.ENVIRONMENT === 'development'
+    getEnvironment() === 'development'
     || (
       response
       && response.current_user
@@ -51,7 +51,7 @@ export const checkHasFeature = (response) => {
   const features = (
     response && response.account_features && response.account_features.features
   ) || [];
-  if (config.ENVIRONMENT === 'development' || features.includes(config.FEATURE_FLAG)) {
+  if (getEnvironment() === 'development' || features.includes(config.FEATURE_FLAG)) {
     return true;
   }
 

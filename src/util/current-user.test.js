@@ -1,6 +1,7 @@
 import getFeData from './fe-data';
-import config from '../config/app';
 import { redirectTo } from './general';
+import getEnvironment from './environment';
+import config from '../config/app';
 import {
   getCurrentUserData,
   redirectToSignIn,
@@ -9,8 +10,9 @@ import {
   checkHasFeature
 } from './current-user';
 
-jest.mock('../util/fe-data.js');
-jest.mock('../util/general.js');
+jest.mock('./fe-data.js');
+jest.mock('./general.js');
+jest.mock('./environment.js');
 jest.mock('../config/app.js');
 
 describe('getCurrentUserData', () => {
@@ -37,20 +39,18 @@ describe('checkSignedInByMetadata', () => {
   });
 
   it('should return true and not redirect if development', () => {
-    config.ENVIRONMENT = 'development';
+    getEnvironment.mockReturnValue('development');
     const returnValue = checkSignedInByMetadata();
     expect(returnValue).toEqual(true);
     expect(redirectTo).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect if metadata values are not set', () => {
-    config.ENVIRONMENT = 'production';
     checkSignedInByMetadata();
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
 
   it('should return true and not redirect if metadata values are set', () => {
-    config.ENVIRONMENT = 'production';
     document.head.innerHTML = '<meta name="user-id" value="1234">';
     document.head.innerHTML += '<meta name="account-id" value="3456">';
 
@@ -65,14 +65,13 @@ describe('checkUser', () => {
   });
 
   it('should return true and not redirect if development', () => {
-    config.ENVIRONMENT = 'development';
+    getEnvironment.mockReturnValue('development');
     const returnValue = checkUser();
     expect(returnValue).toEqual(true);
     expect(redirectTo).toHaveBeenCalledTimes(0);
   });
 
   it('should return true and not redirect if current_user.id and current_account.id exist', () => {
-    config.ENVIRONMENT = 'production';
     const returnValue = checkUser({
       current_user: { id: 1234 },
       current_account: { id: 3456 }
@@ -82,13 +81,11 @@ describe('checkUser', () => {
   });
 
   it('should redirect if no response is passed in', () => {
-    config.ENVIRONMENT = 'production';
     checkUser();
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect if response is empty', () => {
-    config.ENVIRONMENT = 'production';
     checkUser({});
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
@@ -100,14 +97,13 @@ describe('checkHasFeature', () => {
   });
 
   it('should return true and not redirect if development', () => {
-    config.ENVIRONMENT = 'development';
+    getEnvironment.mockReturnValue('development');
     const returnValue = checkHasFeature();
     expect(returnValue).toEqual(true);
     expect(redirectTo).toHaveBeenCalledTimes(0);
   });
 
   it('should return true and not redirect if account has feature', () => {
-    config.ENVIRONMENT = 'production';
     config.FEATURE_FLAG = 'my_awesome_feature';
     const returnValue = checkHasFeature({
       account_features: { features: ['my_awesome_feature'] }
@@ -117,21 +113,18 @@ describe('checkHasFeature', () => {
   });
 
   it('should redirect if no response is passed in', () => {
-    config.ENVIRONMENT = 'production';
     checkHasFeature();
     expect(redirectTo).toHaveBeenCalledTimes(1);
     expect(redirectTo).toHaveBeenCalledWith('/404');
   });
 
   it('should redirect if response is empty', () => {
-    config.ENVIRONMENT = 'production';
     checkHasFeature({});
     expect(redirectTo).toHaveBeenCalledTimes(1);
     expect(redirectTo).toHaveBeenCalledWith('/404');
   });
 
   it('should redirect if response account does not have feature', () => {
-    config.ENVIRONMENT = 'production';
     config.FEATURE_FLAG = 'my_awesome_feature';
     checkHasFeature({
       account_features: { features: ['some_other_feature'] }
