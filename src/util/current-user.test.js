@@ -46,13 +46,11 @@ describe('checkSignedInByMetadata', () => {
   });
 
   it('should redirect if metadata values are not set', () => {
-    // config.ENVIRONMENT = 'production';
     checkSignedInByMetadata();
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
 
   it('should return true and not redirect if metadata values are set', () => {
-    // config.ENVIRONMENT = 'production';
     document.head.innerHTML = '<meta name="user-id" value="1234">';
     document.head.innerHTML += '<meta name="account-id" value="3456">';
 
@@ -74,7 +72,6 @@ describe('checkUser', () => {
   });
 
   it('should return true and not redirect if current_user.id and current_account.id exist', () => {
-    // config.ENVIRONMENT = 'production';
     const returnValue = checkUser({
       current_user: { id: 1234 },
       current_account: { id: 3456 }
@@ -84,13 +81,11 @@ describe('checkUser', () => {
   });
 
   it('should redirect if no response is passed in', () => {
-    // config.ENVIRONMENT = 'production';
     checkUser();
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect if response is empty', () => {
-    // config.ENVIRONMENT = 'production';
     checkUser({});
     expect(redirectTo).toHaveBeenCalledTimes(1);
   });
@@ -109,7 +104,6 @@ describe('checkHasFeature', () => {
   });
 
   it('should return true and not redirect if account has feature', () => {
-    // config.ENVIRONMENT = 'production';
     config.FEATURE_FLAG = 'my_awesome_feature';
     const returnValue = checkHasFeature({
       account_features: { features: ['my_awesome_feature'] }
@@ -119,21 +113,18 @@ describe('checkHasFeature', () => {
   });
 
   it('should redirect if no response is passed in', () => {
-    // config.ENVIRONMENT = 'production';
     checkHasFeature();
     expect(redirectTo).toHaveBeenCalledTimes(1);
     expect(redirectTo).toHaveBeenCalledWith('/404');
   });
 
   it('should redirect if response is empty', () => {
-    // config.ENVIRONMENT = 'production';
     checkHasFeature({});
     expect(redirectTo).toHaveBeenCalledTimes(1);
     expect(redirectTo).toHaveBeenCalledWith('/404');
   });
 
   it('should redirect if response account does not have feature', () => {
-    // config.ENVIRONMENT = 'production';
     config.FEATURE_FLAG = 'my_awesome_feature';
     checkHasFeature({
       account_features: { features: ['some_other_feature'] }
