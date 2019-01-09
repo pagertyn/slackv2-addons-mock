@@ -1,7 +1,7 @@
 import getFeData from './fe-data';
-import getEnvironment from './environment';
-import { redirectTo } from './general';
 import config from '../config/app';
+import { redirectTo } from './general';
+import getEnvironment from './environment';
 
 export const getCurrentUserData = async () => getFeData();
 
