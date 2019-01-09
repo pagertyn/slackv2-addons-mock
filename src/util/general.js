@@ -22,6 +22,7 @@ export const setNamedProperties = (
 
 export const redirectTo = (href) => {
   if (getEnvironment() === 'development') {
+    // eslint-disable-next-line no-console
     console.debug('Redirect (suppressed in development):', href);
     return;
   }

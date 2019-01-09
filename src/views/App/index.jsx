@@ -5,8 +5,8 @@ import { PdxLoading, WithNavbar } from '@pagerduty/pd-react-components';
 import { fetchCurrentUser } from '../../actions/current-user';
 import {
   redirectToSignIn,
-  userExists,
   isSignedInByMetadata,
+  isUserDataValid,
   hasFeatureFlag
 } from '../../util/current-user';
 import { redirectTo } from '../../util/general';
@@ -15,9 +15,9 @@ import config from '../../config/app';
 import MainPage from '../MainPage';
 import SecondPage from '../SecondPage';
 
-const getBaseName = () => getEnvironment() === 'development' ? '' : config.APP_NAME;
+const getBaseName = () => (getEnvironment() === 'development' ? '' : config.APP_NAME);
 
-const isAuthError = (error) => error && error.response && error.response.status === 401;
+const isAuthError = error => error && error.response && error.response.status === 401;
 
 class App extends Component {
   constructor(props) {
@@ -60,6 +60,7 @@ class App extends Component {
     if (!this.state.loaded) {
       return (
         <div className="pd-full-page d-flex align-items-center justify-content-center">
+          <h1 className="sr-only">The App is Loading.</h1>
           <PdxLoading />
         </div>
       );
