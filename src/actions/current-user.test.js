@@ -28,10 +28,6 @@ describe('fetchCurrentUser', () => {
 
     return store.dispatch(actions.fetchCurrentUser()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
-      expect(currentUserUtilMock.checkSignedInByMetadata).toHaveBeenCalledTimes(1);
-      expect(currentUserUtilMock.checkUser).toHaveBeenCalledTimes(0);
-      expect(currentUserUtilMock.checkHasFeature).toHaveBeenCalledTimes(0);
-      expect(currentUserUtilMock.redirectToSignIn).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorPayload);
     });
@@ -50,10 +46,6 @@ describe('fetchCurrentUser', () => {
 
     return store.dispatch(actions.fetchCurrentUser()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
-      expect(currentUserUtilMock.checkSignedInByMetadata).toHaveBeenCalledTimes(1);
-      expect(currentUserUtilMock.checkUser).toHaveBeenCalledTimes(1);
-      expect(currentUserUtilMock.checkHasFeature).toHaveBeenCalledTimes(1);
-      expect(currentUserUtilMock.redirectToSignIn).toHaveBeenCalledTimes(0);
     });
   });
 });

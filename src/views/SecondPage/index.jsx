@@ -32,8 +32,17 @@ class SecondPage extends Component {
         </Row>
         <Row>
           <Col>
-            <p>This is another page.</p>
-            <p><Link to="/">Go back</Link></p>
+            {!this.state.loaded && (
+              <div className="pd-full-page-centered d-flex align-items-center justify-content-center">
+                <PdxLoading />
+              </div>
+            )}
+            {this.state.loaded && (
+              <React.Fragment>
+                <p>This is another page.</p>
+                <p><Link to="/">Go back</Link></p>
+              </React.Fragment>
+            )}
           </Col>
         </Row>
       </section>

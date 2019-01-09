@@ -5,9 +5,9 @@ import config from '../config/app';
 import {
   getCurrentUserData,
   redirectToSignIn,
-  checkSignedInByMetadata,
-  checkUser,
-  checkHasFeature
+  isSignedInByMetadata,
+  isUserDataValid,
+  hasFeatureFlag
 } from './current-user';
 
 jest.mock('./fe-data.js');
@@ -33,103 +33,76 @@ describe('redirectToSignIn', () => {
   });
 });
 
-describe('checkSignedInByMetadata', () => {
+describe('isSignedInByMetadata', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    getEnvironment.mockReturnValue('production');
   });
 
-  it('should return true and not redirect if development', () => {
+  it('should return true if development', () => {
     getEnvironment.mockReturnValue('development');
-    const returnValue = checkSignedInByMetadata();
-    expect(returnValue).toEqual(true);
-    expect(redirectTo).toHaveBeenCalledTimes(0);
+    expect(isSignedInByMetadata()).toEqual(true);
   });
 
-  it('should redirect if metadata values are not set', () => {
-    checkSignedInByMetadata();
-    expect(redirectTo).toHaveBeenCalledTimes(1);
+  it('should return false if metadata values are not set', () => {
+    expect(isSignedInByMetadata()).toEqual(false);
   });
 
   it('should return true and not redirect if metadata values are set', () => {
     document.head.innerHTML = '<meta name="user-id" value="1234">';
     document.head.innerHTML += '<meta name="account-id" value="3456">';
-
-    expect(checkSignedInByMetadata()).toEqual(true);
-    expect(redirectTo).toHaveBeenCalledTimes(0);
+    expect(isSignedInByMetadata()).toEqual(true);
   });
 });
 
-describe('checkUser', () => {
+describe('isUserDataValid', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should return true and not redirect if development', () => {
-    getEnvironment.mockReturnValue('development');
-    const returnValue = checkUser();
-    expect(returnValue).toEqual(true);
-    expect(redirectTo).toHaveBeenCalledTimes(0);
-  });
-
-  it('should return true and not redirect if current_user.id and current_account.id exist', () => {
-    const returnValue = checkUser({
-      current_user: { id: 1234 },
-      current_account: { id: 3456 }
+  it('should return true if user.id and user.accountId exist', () => {
+    const returnValue = isUserDataValid({
+      id: 1234,
+      accountId: 3456
     });
     expect(returnValue).toEqual(true);
-    expect(redirectTo).toHaveBeenCalledTimes(0);
   });
 
-  it('should redirect if no response is passed in', () => {
-    checkUser();
-    expect(redirectTo).toHaveBeenCalledTimes(1);
+  it('should return false if no response is passed in', () => {
+    expect(isUserDataValid()).toEqual(false);
   });
 
-  it('should redirect if response is empty', () => {
-    checkUser({});
-    expect(redirectTo).toHaveBeenCalledTimes(1);
+  it('should return false if response is empty', () => {
+    expect(isUserDataValid({})).toEqual(false);
   });
 });
 
-describe('checkHasFeature', () => {
+describe('hasFeatureFlag', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should return true and not redirect if development', () => {
-    getEnvironment.mockReturnValue('development');
-    const returnValue = checkHasFeature();
-    expect(returnValue).toEqual(true);
-    expect(redirectTo).toHaveBeenCalledTimes(0);
-  });
-
-  it('should return true and not redirect if account has feature', () => {
+  it('should return true if account has feature flag', () => {
     config.FEATURE_FLAG = 'my_awesome_feature';
-    const returnValue = checkHasFeature({
-      account_features: { features: ['my_awesome_feature'] }
+    const returnValue = hasFeatureFlag({
+      features: ['my_awesome_feature']
     });
     expect(returnValue).toEqual(true);
-    expect(redirectTo).toHaveBeenCalledTimes(0);
   });
 
-  it('should redirect if no response is passed in', () => {
-    checkHasFeature();
-    expect(redirectTo).toHaveBeenCalledTimes(1);
-    expect(redirectTo).toHaveBeenCalledWith('/404');
+  it('should return false if no response is passed in', () => {
+    expect(hasFeatureFlag()).toEqual(false);
   });
 
-  it('should redirect if response is empty', () => {
-    checkHasFeature({});
-    expect(redirectTo).toHaveBeenCalledTimes(1);
-    expect(redirectTo).toHaveBeenCalledWith('/404');
+  it('should return false if response is empty', () => {
+    expect(hasFeatureFlag({})).toEqual(false);
   });
 
-  it('should redirect if response account does not have feature', () => {
+  it('should return false if account does not have feature flag', () => {
     config.FEATURE_FLAG = 'my_awesome_feature';
-    checkHasFeature({
-      account_features: { features: ['some_other_feature'] }
+    const returnValue = hasFeatureFlag({
+      features: ['some_other_feature']
     });
-    expect(redirectTo).toHaveBeenCalledTimes(1);
-    expect(redirectTo).toHaveBeenCalledWith('/404');
+    expect(returnValue).toEqual(false);
   });
 });
