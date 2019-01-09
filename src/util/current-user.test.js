@@ -1,7 +1,7 @@
 import getFeData from './fe-data';
 import { redirectTo } from './general';
-import config from '../config/app';
 import getEnvironment from './environment';
+import config from '../config/app';
 import {
   getCurrentUserData,
   redirectToSignIn,
@@ -12,8 +12,8 @@ import {
 
 jest.mock('./fe-data.js');
 jest.mock('./general.js');
-jest.mock('../config/app.js');
 jest.mock('./environment.js');
+jest.mock('../config/app.js');
 
 describe('getCurrentUserData', () => {
   beforeEach(() => {
@@ -68,7 +68,7 @@ describe('isUserDataValid', () => {
     expect(returnValue).toEqual(true);
   });
 
-  it('should return false no response is passed in', () => {
+  it('should return false if no response is passed in', () => {
     expect(isUserDataValid()).toEqual(false);
   });
 

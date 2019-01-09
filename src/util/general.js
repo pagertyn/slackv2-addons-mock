@@ -25,7 +25,6 @@ export const redirectTo = (href) => {
     console.debug('Redirect (suppressed in development):', href);
     return;
   }
-
   window.location.assign(href);
 };
 
