@@ -3,6 +3,9 @@ import {
   redirectTo,
   reduceArrayToObject
 } from './general';
+import getEnvironment from './environment';
+
+jest.mock('./environment.js');
 
 describe('setNamedProperties', () => {
   describe('success cases', () => {
@@ -115,9 +118,9 @@ describe('redirectTo', () => {
 
   it('should log the redirection and not redirect if in development', () => {
     const href = 'some href';
+    getEnvironment.mockReturnValue('development');
     redirectTo(href);
-    expect(window.location.assign).toHaveBeenCalledTimes(1);
-    expect(window.location.assign).toHaveBeenCalledWith(href);
+    expect(window.location.assign).toHaveBeenCalledTimes(0);
   });
 });
 
