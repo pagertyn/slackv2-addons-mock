@@ -117,10 +117,13 @@ describe('redirectTo', () => {
   });
 
   it('should log the redirection and not redirect if in development', () => {
-    const href = 'some href';
     getEnvironment.mockReturnValue('development');
+    global.console = { debug: jest.fn() };
+
+    const href = 'some href';
     redirectTo(href);
     expect(window.location.assign).toHaveBeenCalledTimes(0);
+    expect(console.debug).toHaveBeenCalledTimes(1); // eslint-disable-line no-console
   });
 });
 
