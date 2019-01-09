@@ -1,4 +1,4 @@
-/* eslint no-param-reassign: 0 */
+/* eslint-disable no-param-reassign */
 
 import config from '../config/app';
 

@@ -135,7 +135,8 @@ export default {
       'wip_papi',
       'wip_preview_alert_grouping_tab',
       'test_mode',
-      'enterprise'
+      'enterprise',
+      'react_skeleton'
     ]
   },
   permissions: {}

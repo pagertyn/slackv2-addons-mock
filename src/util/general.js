@@ -1,3 +1,5 @@
+import getEnvironment from './environment';
+
 const capitalize = word => `${word.slice(0, 1).toUpperCase()}${word.slice(1).toLowerCase()}`;
 
 const camelize = (text, separator = '_') => {
@@ -19,6 +21,11 @@ export const setNamedProperties = (
 };
 
 export const redirectTo = (href) => {
+  if (getEnvironment() === 'development') {
+    console.debug('Redirect (suppressed in development):', href);
+    return;
+  }
+
   window.location.assign(href);
 };
 
