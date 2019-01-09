@@ -76,12 +76,14 @@ class App extends Component {
 
     return (
       <WithNavbar currentUser={this.props.currentUser}>
-        <BrowserRouter basename={getBaseName()}>
-          <Switch>
-            <Route exact path="/" component={MainPage} />
-            <Route exact path="/second-page" component={SecondPage} />
-          </Switch>
-        </BrowserRouter>
+        {this.state.loaded && (
+          <BrowserRouter basename={getBaseName()}>
+            <Switch>
+              <Route exact path="/" component={MainPage} />
+              <Route exact path="/second-page" component={SecondPage} />
+            </Switch>
+          </BrowserRouter>
+        )}
       </WithNavbar>
     );
   }

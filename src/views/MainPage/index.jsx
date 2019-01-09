@@ -36,12 +36,12 @@ class MainPage extends Component {
         </Row>
         <Row>
           <Col>
-            {!this.state.loaded &&
+            {!this.state.loaded && (
               <div className="pd-full-page-centered d-flex align-items-center justify-content-center">
                 <PdxLoading />
               </div>
-            }
-            {this.state.loaded &&
+            )}
+            {this.state.loaded && (
               <Card>
                 <CardBody>
                   <p>Main page content goes here inside this white box.</p>
@@ -59,7 +59,7 @@ class MainPage extends Component {
                   </p>
                 </CardBody>
               </Card>
-            }
+            )}
           </Col>
         </Row>
       </section>
