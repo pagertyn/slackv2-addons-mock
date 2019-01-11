@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Pretender from 'pretender';
 import axios from 'axios';
+import cssVars from 'css-vars-ponyfill';
 import store from './store';
 import App from './views/App';
 import getEnvironment from './util/environment';
 import { setAxiosDefaults } from './util/ajax';
-import cssVars from 'css-vars-ponyfill';
 
 // Include CSS
 import '@pagerduty/design-system/dist/standalone.css';
