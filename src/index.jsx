@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Pretender from 'pretender';
 import axios from 'axios';
+import cssVars from 'css-vars-ponyfill';
 import store from './store';
 import App from './views/App';
 import getEnvironment from './util/environment';
@@ -23,5 +24,11 @@ if (getEnvironment() === 'development') {
     feDataPretender
   );
 }
+
+// make css vars work in older browsers
+cssVars({
+  // set this to false to see the effects in Chrome
+  onlyLegacy: true
+});
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
