@@ -16,13 +16,6 @@ class SecondPage extends Component {
   }
 
   render() {
-    if (!this.state.loaded) {
-      return (
-        <div className="pd-full-page-centered d-flex align-items-center justify-content-center">
-          <PdxLoading />
-        </div>
-      );
-    }
     return (
       <PdxLayout>
         <Row>
