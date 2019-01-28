@@ -14,6 +14,7 @@ import '@pagerduty/design-system/dist/standalone.css';
 import './styles/styles.css';
 
 import feDataPretender from './pretender/fe-data';
+import navbarPretender from './pretender/navbar';
 
 setAxiosDefaults(axios);
 
@@ -21,7 +22,8 @@ if (getEnvironment() === 'development') {
   // must use `new Pretender` so it rigs itself up, but we don't need the instance
   // eslint-disable-next-line no-new
   new Pretender(
-    feDataPretender
+    feDataPretender,
+    navbarPretender
   );
 }
 

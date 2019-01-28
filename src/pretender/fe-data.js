@@ -1,5 +1,5 @@
 import data from './fe-data.data';
 
-export default function () { // need `this`, so don't use arrow function here
+export default function () {
   this.get('/fe-data', () => [200, { 'Content-Type': 'application/json' }, JSON.stringify(data)]);
 }

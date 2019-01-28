@@ -5,7 +5,7 @@
   "dependencies": {
     "@pagerduty/design-system": "1.5.1",
     "@pagerduty/eslint-plugin-pagerduty": "3.3.0",
-    "@pagerduty/pd-react-components": "1.2.6",
+    "@pagerduty/pd-react-components": "2.0.1",
     "@percy/cypress": "0.2.3",
     "axe-core": "3.1.2",
     "axios": "^0.18.0",
