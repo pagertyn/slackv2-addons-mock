@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PdxLoading } from '@pagerduty/pd-react-components';
+import { PdxLoading, PdxLayout } from '@pagerduty/pd-react-components';
 import {
   Button,
   Row,
@@ -23,7 +23,7 @@ class MainPage extends Component {
 
   render() {
     return (
-      <section className="p-4">
+      <PdxLayout>
         <Row className="mb-2">
           <Col>
             <h1 className="h1">Hello World</h1>
@@ -62,7 +62,7 @@ class MainPage extends Component {
             )}
           </Col>
         </Row>
-      </section>
+      </PdxLayout>
     );
   }
 }

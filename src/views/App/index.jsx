@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { PdxLoading, WithNavbar } from '@pagerduty/pd-react-components';
+import { PdxLoading } from '@pagerduty/pd-react-components';
 import { fetchCurrentUser } from '../../actions/current-user';
 import {
   redirectToSignIn,
@@ -75,16 +75,14 @@ class App extends Component {
     }
 
     return (
-      <WithNavbar currentUser={this.props.currentUser}>
+      <BrowserRouter basename={getBaseName()}>
         {this.state.loaded && (
-          <BrowserRouter basename={getBaseName()}>
-            <Switch>
-              <Route exact path="/" component={MainPage} />
-              <Route exact path="/second-page" component={SecondPage} />
-            </Switch>
-          </BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={MainPage} />
+            <Route exact path="/second-page" component={SecondPage} />
+          </Switch>
         )}
-      </WithNavbar>
+      </BrowserRouter>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PdxLoading } from '@pagerduty/pd-react-components';
+import { PdxLoading, PdxLayout } from '@pagerduty/pd-react-components';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -24,10 +24,10 @@ class SecondPage extends Component {
       );
     }
     return (
-      <section className="p-4">
+      <PdxLayout>
         <Row>
           <Col>
-            <h1 className="h1">Another Page</h1>
+            <h1 className="h1 mb-2">Another Page</h1>
           </Col>
         </Row>
         <Row>
@@ -45,7 +45,7 @@ class SecondPage extends Component {
             )}
           </Col>
         </Row>
-      </section>
+      </PdxLayout>
     );
   }
 }
