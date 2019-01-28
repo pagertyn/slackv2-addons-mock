@@ -24,9 +24,9 @@ class MainPage extends Component {
   render() {
     return (
       <PdxLayout>
-        <Row className="mb-2">
+        <Row>
           <Col>
-            <h1 className="h1">Hello World</h1>
+            <h1 className="h1 mb-2">Hello World</h1>
           </Col>
           <Col>
             <div className="d-flex justify-content-end">
