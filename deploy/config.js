@@ -19,8 +19,8 @@ module.exports = {
     s3Bucket: 'pd-frontendcore-stg'
   },
   production: {
-    cloudfrontUrl: 'https://d30g1epxm0pa0g.cloudfront.net',
-    s3Bucket: 'pd-frontendcore-stg'
+    cloudfrontUrl: 'https://d369tvcaxue3o4.cloudfront.net',
+    s3Bucket: 'pd-frontendcore'
   },
   s3Folder: 'react-skeleton',
   commitSha,
