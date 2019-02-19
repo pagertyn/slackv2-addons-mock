@@ -1,3 +1,5 @@
+import config from '../config/app';
+
 export default {
   current_user: {
     name: 'Some User',
@@ -27,6 +29,7 @@ export default {
   },
   account_features: {
     features: [
+      config.FEATURE_FLAG,
       'ack_as_assignment',
       'advanced_event_actions',
       'advanced_reports',
@@ -135,8 +138,7 @@ export default {
       'wip_papi',
       'wip_preview_alert_grouping_tab',
       'test_mode',
-      'enterprise',
-      'react_skeleton'
+      'enterprise'
     ]
   },
   permissions: {}
