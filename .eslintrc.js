@@ -11,6 +11,7 @@ module.exports = {
     'plugin:@pagerduty/pagerduty/jest',
     'plugin:@pagerduty/pagerduty/cypress'
   ],
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',

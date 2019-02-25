@@ -8,8 +8,5 @@ describe('My App', () => {
 
     // Use cypress-axe to check accessibility. Results appear in the console.
     cy.checkA11y();
-
-    // Uncomment this if you are using Percy
-    // cy.percySnapshot();
   });
 });
