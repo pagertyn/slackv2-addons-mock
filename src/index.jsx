@@ -6,7 +6,7 @@ import cssVars from 'css-vars-ponyfill';
 import store from './store';
 import App from './views/App';
 import getEnvironment from './util/environment';
-import { setAxiosDefaults } from './util/ajax';
+import { setAxiosDefaults } from './util/axios';
 import { init as initPretender } from './pretender';
 
 // Include CSS

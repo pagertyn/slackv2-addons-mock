@@ -59,10 +59,10 @@ class App extends Component {
   render() {
     if (!this.state.loaded) {
       return (
-        <div className="pd-full-page d-flex align-items-center justify-content-center">
-          <h1 className="sr-only">The App is Loading.</h1>
-          <PdxLoading />
-        </div>
+        <main role="main">
+          <h1 className="h1 sr-only">PagerDuty</h1>
+          <PdxLoading center />
+        </main>
       );
     }
 

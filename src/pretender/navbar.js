@@ -1,3 +1,4 @@
 export default function () {
-  this.get('/api/v1/navbar/legacy', this.passthrough);
+  this.get('/navbar/*', this.passthrough);
+  this.get('http://pdt-circular.pagerduty.com/navbar/*', this.passthrough);
 }
