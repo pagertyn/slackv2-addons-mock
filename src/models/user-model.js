@@ -25,6 +25,7 @@ export default class UserModel {
     this.subdomain = null;
     this.plan = null;
     this.state = null;
+    this.toggles = [];
     this.features = [];
     this.permissions = {};
     this.abilities = {};
@@ -73,7 +74,8 @@ export default class UserModel {
     // set user properties
     const userFields = [
       'id', 'name', 'email', 'time_zone', 'role', 'avatar_url',
-      'can_see_entire_account', 'spoof_origin', 'is_safe_spoofing'
+      'can_see_entire_account', 'spoof_origin', 'is_safe_spoofing',
+      'toggles'
     ];
     setNamedProperties(this, props.current_user, userFields);
     this.permissions = props.permissions || {};
@@ -81,8 +83,8 @@ export default class UserModel {
     // set account properties
     const accountFields = ['subdomain', 'plan', 'state'];
     setNamedProperties(this, props.current_account, accountFields);
-    this.accountId = (props.current_account && props.current_account.id) || null;
     this.features = (props.account_features && props.account_features.features) || [];
+    this.accountId = (props.current_account && props.current_account.id) || null;
     this.abilities = props.account_abilities || {};
   }
 

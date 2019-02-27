@@ -28,9 +28,9 @@ export const isUserDataValid = (user) => {
   return Boolean(valid);
 };
 
-export const hasFeatureFlag = (user) => {
-  const hasFlag = user
-    && user.features
-    && user.features.includes(config.FEATURE_FLAG);
-  return Boolean(hasFlag);
+export const hasFeatureToggle = (user) => {
+  const hasToggle = user
+    && user.toggles
+    && user.toggles.includes(config.FEATURE_TOGGLE);
+  return Boolean(hasToggle);
 };

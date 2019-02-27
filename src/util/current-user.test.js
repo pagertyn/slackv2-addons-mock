@@ -7,7 +7,7 @@ import {
   redirectToSignIn,
   isSignedInByMetadata,
   isUserDataValid,
-  hasFeatureFlag
+  hasFeatureToggle
 } from './current-user';
 
 jest.mock('./fe-data.js');
@@ -82,26 +82,26 @@ describe('hasFeatureFlag', () => {
     jest.resetAllMocks();
   });
 
-  it('should return true if account has feature flag', () => {
-    config.FEATURE_FLAG = 'my_awesome_feature';
-    const returnValue = hasFeatureFlag({
-      features: ['my_awesome_feature']
+  it('should return true if account has feature toggle', () => {
+    config.FEATURE_TOGGLE = 'my_awesome_feature';
+    const returnValue = hasFeatureToggle({
+      toggles: ['my_awesome_feature']
     });
     expect(returnValue).toEqual(true);
   });
 
   it('should return false if no response is passed in', () => {
-    expect(hasFeatureFlag()).toEqual(false);
+    expect(hasFeatureToggle()).toEqual(false);
   });
 
   it('should return false if response is empty', () => {
-    expect(hasFeatureFlag({})).toEqual(false);
+    expect(hasFeatureToggle({})).toEqual(false);
   });
 
   it('should return false if account does not have feature flag', () => {
-    config.FEATURE_FLAG = 'my_awesome_feature';
-    const returnValue = hasFeatureFlag({
-      features: ['some_other_feature']
+    config.FEATURE_TOGGLE = 'my_awesome_feature';
+    const returnValue = hasFeatureToggle({
+      toggles: ['some_other_feature']
     });
     expect(returnValue).toEqual(false);
   });

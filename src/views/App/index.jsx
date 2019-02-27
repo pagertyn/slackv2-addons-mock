@@ -7,7 +7,7 @@ import {
   redirectToSignIn,
   isSignedInByMetadata,
   isUserDataValid,
-  hasFeatureFlag
+  hasFeatureToggle
 } from '../../util/current-user';
 import { redirectTo } from '../../util/general';
 import getEnvironment from '../../util/environment';
@@ -36,7 +36,7 @@ class App extends Component {
       return;
     }
 
-    // fetch user data from metadata
+    // fetch user data using user id and account id from page metadata
     await this.props.fetchCurrentUser();
 
     // fetch error is 401 Unauthorized OR some other fetch error
@@ -46,6 +46,7 @@ class App extends Component {
         return;
       }
       redirectTo('/error');
+      return;
     }
 
     // user data is bad
@@ -54,8 +55,8 @@ class App extends Component {
       return;
     }
 
-    // missing the feature flag
-    if (!hasFeatureFlag(this.props.currentUser)) {
+    // missing the feature toggle
+    if (!hasFeatureToggle(this.props.currentUser)) {
       redirectTo('/error');
       return;
     }
@@ -68,7 +69,7 @@ class App extends Component {
       return (
         <main role="main">
           <h1 className="h1 sr-only">PagerDuty</h1>
-          <PdxLoading center />
+          <div className="p-3"><PdxLoading center /></div>
         </main>
       );
     }

@@ -17,7 +17,8 @@ export default {
     summary: 'Some User',
     can_see_entire_account: false,
     can_see_operational_reviews: true,
-    can_create_configure_archive_operational_reviews: true
+    can_create_configure_archive_operational_reviews: true,
+    toggles: [config.FEATURE_TOGGLE]
   },
   current_account: {
     id: 'PFIGZHD',
@@ -29,7 +30,6 @@ export default {
   },
   account_features: {
     features: [
-      config.FEATURE_FLAG,
       'ack_as_assignment',
       'advanced_event_actions',
       'advanced_reports',
