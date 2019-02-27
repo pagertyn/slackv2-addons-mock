@@ -14,6 +14,8 @@ import getEnvironment from '../../util/environment';
 import config from '../../config/app';
 import MainPage from '../MainPage';
 import SecondPage from '../SecondPage';
+import ErrorPage from '../ErrorPage';
+import NotFoundPage from '../NotFoundPage';
 
 const getBaseName = () => (getEnvironment() === 'development' ? '' : config.APP_NAME);
 
@@ -28,28 +30,33 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    // user metadata is not in the page
     if (!isSignedInByMetadata()) {
       redirectToSignIn();
       return;
     }
 
+    // fetch user data from metadata
     await this.props.fetchCurrentUser();
 
-    // fetch error is 401 Unauthorized
-    if (this.props.error && isAuthError(this.props.error)) {
+    // fetch error is 401 Unauthorized OR some other fetch error
+    if (this.props.error) {
+      if (isAuthError(this.props.error)) {
+        redirectToSignIn();
+        return;
+      }
+      redirectTo('/error');
+    }
+
+    // user data is bad
+    if (!isUserDataValid(this.props.currentUser)) {
       redirectToSignIn();
       return;
     }
 
-    // no fetch errors, but the user data is bad
-    if (!this.props.error && !isUserDataValid(this.props.currentUser)) {
-      redirectToSignIn();
-      return;
-    }
-
-    // no fetch errors, but missing the feature flag
-    if (!this.props.error && !hasFeatureFlag(this.props.currentUser)) {
-      redirectTo('/404');
+    // missing the feature flag
+    if (!hasFeatureFlag(this.props.currentUser)) {
+      redirectTo('/error');
       return;
     }
 
@@ -66,20 +73,14 @@ class App extends Component {
       );
     }
 
-    if (this.props.error) {
-      return (
-        <section className="p-4">
-          <h1 className="h1">An error occurred while fetching data</h1>
-        </section>
-      );
-    }
-
     return (
       <BrowserRouter basename={getBaseName()}>
         {this.state.loaded && (
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route exact path="/second-page" component={SecondPage} />
+            <Route exact path="/error" component={ErrorPage} />
+            <Route component={NotFoundPage} />
           </Switch>
         )}
       </BrowserRouter>
