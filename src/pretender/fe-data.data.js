@@ -18,7 +18,7 @@ export default {
     can_see_entire_account: false,
     can_see_operational_reviews: true,
     can_create_configure_archive_operational_reviews: true,
-    toggles: [config.FEATURE_TOGGLE]
+    toggles: [{ name: config.FEATURE_TOGGLE }]
   },
   current_account: {
     id: 'PFIGZHD',

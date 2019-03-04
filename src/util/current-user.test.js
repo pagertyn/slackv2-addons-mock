@@ -85,7 +85,7 @@ describe('hasFeatureFlag', () => {
   it('should return true if account has feature toggle', () => {
     config.FEATURE_TOGGLE = 'my_awesome_feature';
     const returnValue = hasFeatureToggle({
-      toggles: ['my_awesome_feature']
+      toggles: [{ name: 'my_awesome_feature' }]
     });
     expect(returnValue).toEqual(true);
   });
@@ -101,7 +101,7 @@ describe('hasFeatureFlag', () => {
   it('should return false if account does not have feature flag', () => {
     config.FEATURE_TOGGLE = 'my_awesome_feature';
     const returnValue = hasFeatureToggle({
-      toggles: ['some_other_feature']
+      toggles: [{ name: 'some_other_feature' }]
     });
     expect(returnValue).toEqual(false);
   });

@@ -31,6 +31,6 @@ export const isUserDataValid = (user) => {
 export const hasFeatureToggle = (user) => {
   const hasToggle = user
     && user.toggles
-    && user.toggles.includes(config.FEATURE_TOGGLE);
+    && user.toggles.find(toggle => toggle.name === config.FEATURE_TOGGLE);
   return Boolean(hasToggle);
 };
