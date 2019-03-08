@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { PdxLoading } from '@pagerduty/pd-react-components';
+import {
+  PdxErrorPage,
+  PdxLoadingPage,
+  PdxNotFoundPage
+} from '@pagerduty/pd-react-components';
 import { fetchCurrentUser } from '../../actions/current-user';
 import {
   redirectToSignIn,
@@ -9,13 +13,10 @@ import {
   isUserDataValid,
   hasFeatureToggle
 } from '../../util/current-user';
-import { redirectTo } from '../../util/general';
 import getEnvironment from '../../util/environment';
 import config from '../../config/app';
 import MainPage from '../MainPage';
 import SecondPage from '../SecondPage';
-import ErrorPage from '../ErrorPage';
-import NotFoundPage from '../NotFoundPage';
 
 const getBaseName = () => (getEnvironment() === 'development' ? '' : config.APP_NAME);
 
@@ -24,6 +25,7 @@ const isAuthError = error => error && error.response && error.response.status ==
 class App extends Component {
   constructor(props) {
     super(props);
+    this.hasFeature = false;
     this.state = {
       loaded: false
     };
@@ -33,57 +35,37 @@ class App extends Component {
     // user metadata is not in the page
     if (!isSignedInByMetadata()) {
       redirectToSignIn();
-      return;
     }
 
     // fetch user data using user id and account id from page metadata
     await this.props.fetchCurrentUser();
 
     // fetch error is 401 Unauthorized OR some other fetch error
-    if (this.props.error) {
-      if (isAuthError(this.props.error)) {
-        redirectToSignIn();
-        return;
-      }
-      redirectTo('/error');
-      return;
-    }
-
-    // user data is bad
-    if (!isUserDataValid(this.props.currentUser)) {
+    //  OR user data is bad
+    if ((this.props.error && isAuthError(this.props.error))
+        || !isUserDataValid(this.props.currentUser)) {
       redirectToSignIn();
-      return;
     }
 
-    // missing the feature toggle
-    if (!hasFeatureToggle(this.props.currentUser)) {
-      redirectTo('/error');
-      return;
-    }
-
+    this.hasFeature = hasFeatureToggle(this.props.currentUser);
     this.setState({ loaded: true });
   }
 
   render() {
-    if (!this.state.loaded) {
-      return (
-        <main role="main">
-          <h1 className="h1 sr-only">PagerDuty</h1>
-          <div className="p-3"><PdxLoading center /></div>
-        </main>
-      );
+    if (!this.state.loaded) return <PdxLoadingPage />;
+
+    if (!this.hasFeature) {
+      const errorMessage = 'You do not have access to this feature.';
+      return <PdxErrorPage message={errorMessage} />;
     }
 
     return (
       <BrowserRouter basename={getBaseName()}>
-        {this.state.loaded && (
-          <Switch>
-            <Route exact path="/" component={MainPage} />
-            <Route exact path="/second-page" component={SecondPage} />
-            <Route exact path="/error" component={ErrorPage} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        )}
+        <Switch>
+          <Route exact path="/" component={MainPage} />
+          <Route exact path="/second-page" component={SecondPage} />
+          <Route component={PdxNotFoundPage} />
+        </Switch>
       </BrowserRouter>
     );
   }

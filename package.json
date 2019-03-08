@@ -3,9 +3,9 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@pagerduty/design-system": "^1.5.1",
+    "@pagerduty/design-system": "^2.2.1",
     "@pagerduty/eslint-plugin-pagerduty": "^3.3.0",
-    "@pagerduty/pd-react-components": "^2.1.1",
+    "@pagerduty/pd-react-components": "^2.2.0",
     "axe-core": "3.1.2",
     "axios": "^0.18.0",
     "bootstrap": "^4.1.3",
