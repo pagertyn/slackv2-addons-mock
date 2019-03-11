@@ -1,7 +1,6 @@
 {
   "name": "pd-react-skeleton",
   "version": "1.0.0",
-  "private": true,
   "dependencies": {
     "@pagerduty/design-system": "^2.2.1",
     "@pagerduty/eslint-plugin-pagerduty": "^3.3.0",
