@@ -19,11 +19,11 @@ To test the configurations, you will always need to provide some environment var
 You can test using `node` by logging the config:
 
 ```
-CIRCLE_SHA1=abc CIRCLE_BRANCH=br node -e "console.log(require('./deploy/staging.config.js'))"
+CIRCLE_SHA1=abc CIRCLE_BRANCH=br node -e "console.log(require('./deploy/config.staging.js'))"
 ```
 
 You can test using `env-cmd` just like `package.json` does. Then `printenv` can show you an environment variable.
 
 ```
-CIRCLE_SHA1=abc CIRCLE_BRANCH=br npx env-cmd deploy/staging.config.js printenv PUBLIC_URL
+CIRCLE_SHA1=abc CIRCLE_BRANCH=br npx env-cmd deploy/config.staging.js printenv PUBLIC_URL
 ```
