@@ -86,7 +86,7 @@ commands:
 jobs:
   run_jest_tests:
     docker:
-      - image: circleci/node:8.11.1-stretch
+      - image: circleci/node:10.15.2-stretch
     steps:
       - info
       - checkout
@@ -104,7 +104,7 @@ jobs:
 
   run_linter:
     docker:
-      - image: circleci/node:8.11.1-stretch
+      - image: circleci/node:10.15.2-stretch
     steps:
       - info
       - checkout
@@ -113,7 +113,7 @@ jobs:
 
   run_deploy:
     docker:
-      - image: circleci/node:8.11.1-stretch
+      - image: circleci/node:10.15.2-stretch
     parameters:
       to:
         description: "Deploy to staging or production."
