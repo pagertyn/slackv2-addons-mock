@@ -1,30 +1,16 @@
-import getFeData from './fe-data';
-import { redirectTo } from './general';
-import getEnvironment from './environment';
-import config from '../config/app';
+import { redirectTo } from '../../../util/general';
+import getEnvironment from '../../../util/environment';
+import config from '../../../config/app';
 import {
-  getCurrentUserData,
   redirectToSignIn,
   isSignedInByMetadata,
   isUserDataValid,
   hasFeatureToggle
-} from './current-user';
+} from './util';
 
-jest.mock('./fe-data.js');
-jest.mock('./general.js');
-jest.mock('./environment.js');
-jest.mock('../config/app.js');
-
-describe('getCurrentUserData', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it('should call getFeData', () => {
-    getCurrentUserData();
-    expect(getFeData).toHaveBeenCalledTimes(1);
-  });
-});
+jest.mock('../../../util/general.js');
+jest.mock('../../../util/environment.js');
+jest.mock('../../../config/app.js');
 
 describe('redirectToSignIn', () => {
   it('should call redirectTo, passing in correct url', () => {

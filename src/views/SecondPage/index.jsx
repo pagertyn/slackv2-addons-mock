@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { PdxLoading, PdxLayout } from '@pagerduty/pd-react-components';
-import { Row, Col } from 'reactstrap';
+import { PdxLoading } from '@pagerduty/pd-react-components';
+import {
+  Row,
+  Card,
+  Col,
+  Container,
+  Breadcrumb,
+  BreadcrumbItem
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Metadata from '../Metadata';
 
 class SecondPage extends Component {
   constructor(props) {
     super(props);
+    this.pageTitle = 'Another Page';
     this.state = {
       loaded: false
     };
@@ -19,31 +27,43 @@ class SecondPage extends Component {
   render() {
     return (
       <React.Fragment>
+
         <Metadata>
-          <title>I am a second page title!</title>
+          <title>{this.pageTitle}</title>
         </Metadata>
-        <PdxLayout>
-          <Row>
-            <Col>
-              <h1 className="h1 mb-2">Another Page</h1>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              {!this.state.loaded && (
-                <div className="pd-full-page-centered d-flex align-items-center justify-content-center">
-                  <PdxLoading />
-                </div>
-              )}
-              {this.state.loaded && (
-                <React.Fragment>
-                  <p>This is another page.</p>
-                  <p><Link to="/">Go back</Link></p>
-                </React.Fragment>
-              )}
-            </Col>
-          </Row>
-        </PdxLayout>
+
+        <div className="d-flex flex-column h-100">
+          <Container className="pb-4 pt-2 flex-grow-1 d-flex flex-column">
+            <Breadcrumb>
+              <BreadcrumbItem><Link to="/">React Skeleton App</Link></BreadcrumbItem>
+              <BreadcrumbItem active>{this.pageTitle}</BreadcrumbItem>
+            </Breadcrumb>
+
+            <Row>
+              <Col>
+                <h1 className="h1 font-weight-normal">{this.pageTitle}</h1>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                {!this.state.loaded && (
+                  <Row>
+                    <Col>
+                      <PdxLoading center />
+                    </Col>
+                  </Row>
+                )}
+                {this.state.loaded && (
+                  <Card body>
+                    <p>This is another page.</p>
+                    <p><Link to="/">Go back</Link></p>
+                  </Card>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        </div>
       </React.Fragment>
     );
   }

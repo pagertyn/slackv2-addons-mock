@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { PdxLoading, PdxLayout } from '@pagerduty/pd-react-components';
+import { connect } from 'react-redux';
 import {
-  Button,
+  PdxLoading
+} from '@pagerduty/pd-react-components';
+import {
   Row,
   Card,
-  CardBody,
+  CardTitle,
   Col,
   Container
 } from 'reactstrap';
@@ -14,6 +16,7 @@ import Metadata from '../Metadata';
 class MainPage extends Component {
   constructor(props) {
     super(props);
+    this.pageTitle = 'Homepage';
     this.state = {
       loaded: false
     };
@@ -26,21 +29,23 @@ class MainPage extends Component {
   render() {
     return (
       <React.Fragment>
+
         <Metadata>
-          <title>I am the main page!</title>
+          <title>{this.pageTitle}</title>
         </Metadata>
-        <PdxLayout>
-          <Container>
+
+        <div className="d-flex flex-column h-100">
+          <Container className="pb-4 pt-4 flex-grow-1 d-flex flex-column">
+
             <Row>
               <Col>
-                <h1 className="h1 mb-2">Hello World</h1>
+                <h1 className="h1 font-weight-normal">{this.pageTitle}</h1>
               </Col>
-              <Col>
-                <div className="d-flex justify-content-end">
-                  <Button>New Item</Button>
-                </div>
+              <Col sm="auto" className="mb-1">
+                <Link to="/second-page" className="a11y-link">Action Item on Another Page</Link>
               </Col>
             </Row>
+
             <Row>
               <Col>
                 {!this.state.loaded && (
@@ -51,31 +56,41 @@ class MainPage extends Component {
                   </Row>
                 )}
                 {this.state.loaded && (
-                  <Card>
-                    <CardBody>
-                      <p>Main page content goes here inside this white box.</p>
-                      <p>
-                        Read more about how to build apps in the
-                        {' '}
-                        <a href="https://pagerduty.github.io/frontend-docs">PagerDuty Front-End Docs</a>
-                        .
-                      </p>
-                      <p>
-                        Go to the
-                        {' '}
-                        <Link to="/second-page">second example page</Link>
-                        .
-                      </p>
-                    </CardBody>
+                  <Card body>
+                    <CardTitle tag="h2">Hello World!</CardTitle>
+                    <p>Congratulations on setting up the PagerDuty React Skeleton App.</p>
+                    <p>
+                      You are ready to start building.
+                      Take a look at the
+                      {' '}
+                      <a href="https://pagerduty.github.io/frontend-docs">PagerDuty Front-End Docs</a>
+                      .
+                    </p>
+
+                    <CardTitle tag="h3">Mock User Data</CardTitle>
+                    Logged in user and account data comes for free with your PD React app.
+                    For example:
+                    <ul style={{ listStyle: 'none' }}>
+                      <li>{`User ID: ${this.props.currentUser.id}`}</li>
+                      <li>{`User Name: ${this.props.currentUser.name}`}</li>
+                      <li>{`User Email: ${this.props.currentUser.email}`}</li>
+                      <li>{`Account ID: ${this.props.currentAccount.id}`}</li>
+                      <li>{`Account Subdomain: ${this.props.currentAccount.subdomain}`}</li>
+                      <li>{`Account Name: ${this.props.currentAccount.name}`}</li>
+                    </ul>
                   </Card>
                 )}
               </Col>
             </Row>
           </Container>
-        </PdxLayout>
+        </div>
       </React.Fragment>
     );
   }
 }
 
-export default MainPage;
+const mapStateToProps = state => ({
+  currentUser: state.feData.user,
+  currentAccount: state.feData.account,
+});
+export default connect(mapStateToProps)(MainPage);

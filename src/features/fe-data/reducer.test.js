@@ -1,7 +1,7 @@
-import reducer from './current-user';
-import * as types from '../actions/current-user';
+import reducer from './reducer';
+import * as types from './actions';
 
-describe('current-user reducer', () => {
+describe('fe-data reducer', () => {
   const prevState = { somePreviousState: true };
 
   it('should return the initial state', () => {
@@ -9,15 +9,16 @@ describe('current-user reducer', () => {
       reducer(undefined, {})
     ).toEqual({
       user: {},
+      account: {},
       isFetching: false,
       error: null
     });
   });
 
-  it('should handle FETCH_CURRENT_USER_REQUEST', () => {
+  it('should handle FETCH_FE_DATA_REQUEST', () => {
     expect(
       reducer(prevState, {
-        type: types.FETCH_CURRENT_USER_REQUEST
+        type: types.FETCH_FE_DATA_REQUEST
       })
     ).toEqual({
       ...prevState,
@@ -26,27 +27,31 @@ describe('current-user reducer', () => {
     });
   });
 
-  it('should handle FETCH_CURRENT_USER_SUCCESS', () => {
-    const payload = 'the current user';
+  it('should handle FETCH_FE_DATA_SUCCESS', () => {
+    const payload = {
+      user: 'the current user',
+      account: 'some account'
+    };
 
     expect(
       reducer(prevState, {
-        type: types.FETCH_CURRENT_USER_SUCCESS,
+        type: types.FETCH_FE_DATA_SUCCESS,
         payload
       })
     ).toEqual({
       ...prevState,
-      user: payload,
+      user: payload.user,
+      account: payload.account,
       isFetching: false
     });
   });
 
-  it('should handle FETCH_CURRENT_USER_ERROR', () => {
+  it('should handle FETCH_FE_DATA_ERROR', () => {
     const payload = 'the error';
 
     expect(
       reducer(prevState, {
-        type: types.FETCH_CURRENT_USER_ERROR,
+        type: types.FETCH_FE_DATA_ERROR,
         payload
       })
     ).toEqual({

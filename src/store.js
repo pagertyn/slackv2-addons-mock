@@ -2,10 +2,10 @@ import thunk from 'redux-thunk';
 import {
   applyMiddleware, compose, createStore, combineReducers
 } from 'redux';
-import currentUser from './reducers/current-user';
+import feData from './features/fe-data/reducer';
 
 const allReducers = combineReducers({
-  currentUser
+  feData
 });
 
 let allStoreEnhancers = compose(

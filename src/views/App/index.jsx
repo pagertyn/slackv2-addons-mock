@@ -3,16 +3,17 @@ import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import {
   PdxErrorPage,
-  PdxLoadingPage,
+  PdxLayout,
+  PdxLoading,
   PdxNotFoundPage
 } from '@pagerduty/pd-react-components';
-import { fetchCurrentUser } from '../../actions/current-user';
+import { fetchFeData } from '../../features/fe-data/actions';
 import {
   redirectToSignIn,
   isSignedInByMetadata,
   isUserDataValid,
   hasFeatureToggle
-} from '../../util/current-user';
+} from '../../features/fe-data/user/util';
 import getEnvironment from '../../util/environment';
 import config from '../../config/app';
 import MainPage from '../MainPage';
@@ -38,7 +39,7 @@ class App extends Component {
     }
 
     // fetch user data using user id and account id from page metadata
-    await this.props.fetchCurrentUser();
+    await this.props.fetchFeData();
 
     // fetch error is 401 Unauthorized OR some other fetch error
     //  OR user data is bad
@@ -52,29 +53,38 @@ class App extends Component {
   }
 
   render() {
-    if (!this.state.loaded) return <PdxLoadingPage />;
-
-    if (!this.hasFeature) {
+    if (this.state.loaded && !this.hasFeature) {
       const errorMessage = 'You do not have access to this feature.';
       return <PdxErrorPage message={errorMessage} />;
     }
 
     return (
       <BrowserRouter basename={getBaseName()}>
-        <Switch>
-          <Route exact path="/" component={MainPage} />
-          <Route exact path="/second-page" component={SecondPage} />
-          <Route component={PdxNotFoundPage} />
-        </Switch>
+        <PdxLayout>
+          {!this.state.loaded && (
+            <div className="h-100">
+              <PdxLoading center />
+            </div>
+          )}
+
+          {this.state.loaded && (
+            <Switch>
+              <Route exact path="/" component={MainPage} />
+              <Route exact path="/second-page" component={SecondPage} />
+              <Route component={PdxNotFoundPage} />
+            </Switch>
+          )}
+        </PdxLayout>
       </BrowserRouter>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.currentUser.user,
-  isFetching: state.currentUser.isFetching,
-  error: state.currentUser.error
+  currentUser: state.feData.user,
+  currentAccount: state.feData.account,
+  isFetching: state.feData.isFetching,
+  error: state.feData.error
 });
-const mapActionsToProps = { fetchCurrentUser };
+const mapActionsToProps = { fetchFeData };
 export default connect(mapStateToProps, mapActionsToProps)(App);

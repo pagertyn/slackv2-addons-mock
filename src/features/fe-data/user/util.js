@@ -1,9 +1,6 @@
-import getFeData from './fe-data';
-import config from '../config/app';
-import { redirectTo } from './general';
-import getEnvironment from './environment';
-
-export const getCurrentUserData = async () => getFeData();
+import config from '../../../config/app';
+import { redirectTo } from '../../../util/general';
+import getEnvironment from '../../../util/environment';
 
 export const redirectToSignIn = () => {
   const path = window.location.pathname;

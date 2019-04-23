@@ -1,12 +1,14 @@
 import Pretender from 'pretender';
 
-import feDataPretender from './fe-data';
-import navbarPretender from './navbar';
+import feDataPretender from '../features/fe-data/pretender';
+import navbarPretender from '../features/navbar/pretender';
+import segmentPretender from '../features/segment/pretender';
 
 export const init = () => {
   const server = new Pretender(
     feDataPretender,
-    navbarPretender
+    navbarPretender,
+    segmentPretender
   );
 
   server.handledRequest = function handledRequest(verb, path, request) {
