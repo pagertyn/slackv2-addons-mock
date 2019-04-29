@@ -11,7 +11,7 @@ import {
   Container
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Metadata from '../Metadata';
+import Metadata from 'src/views/Metadata';
 
 class MainPage extends Component {
   constructor(props) {

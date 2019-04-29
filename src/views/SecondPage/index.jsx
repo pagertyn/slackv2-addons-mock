@@ -9,7 +9,7 @@ import {
   BreadcrumbItem
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Metadata from '../Metadata';
+import Metadata from 'src/views/Metadata';
 
 class SecondPage extends Component {
   constructor(props) {

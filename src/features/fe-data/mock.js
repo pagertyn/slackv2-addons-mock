@@ -1,4 +1,4 @@
-import config from '../../config/app';
+import config from 'src/config/app';
 
 export default {
   current_user: {

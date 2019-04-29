@@ -1,9 +1,9 @@
+import getEnvironment from 'src/util/environment';
 import {
   setNamedProperties,
   redirectTo,
   reduceArrayToObject
 } from './general';
-import getEnvironment from './environment';
 
 jest.mock('./environment.js');
 

@@ -7,17 +7,17 @@ import {
   PdxLoading,
   PdxNotFoundPage
 } from '@pagerduty/pd-react-components';
-import { fetchFeData } from '../../features/fe-data/actions';
+import { fetchFeData } from 'src/features/fe-data/actions';
 import {
   redirectToSignIn,
   isSignedInByMetadata,
   isUserDataValid,
   hasFeatureToggle
-} from '../../features/fe-data/user/util';
-import getEnvironment from '../../util/environment';
-import config from '../../config/app';
-import MainPage from '../MainPage';
-import SecondPage from '../SecondPage';
+} from 'src/features/fe-data/user/util';
+import getEnvironment from 'src/util/environment';
+import config from 'src/config/app';
+import MainPage from 'src/views/MainPage';
+import SecondPage from 'src/views/SecondPage';
 
 const getBaseName = () => (getEnvironment() === 'development' ? '' : config.APP_NAME);
 
