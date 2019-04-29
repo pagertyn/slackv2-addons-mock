@@ -1,4 +1,4 @@
-import { setNamedProperties } from '../../../util/general';
+import { setNamedProperties } from 'src/util/general';
 
 const ROLES = [
   'owner',

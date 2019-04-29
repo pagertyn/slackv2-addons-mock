@@ -1,8 +1,8 @@
 import Pretender from 'pretender';
 
-import feDataPretender from '../features/fe-data/pretender';
-import navbarPretender from '../features/navbar/pretender';
-import segmentPretender from '../features/segment/pretender';
+import feDataPretender from 'src/features/fe-data/pretender';
+import navbarPretender from 'src/features/navbar/pretender';
+import segmentPretender from 'src/features/segment/pretender';
 
 export const init = () => {
   const server = new Pretender(
