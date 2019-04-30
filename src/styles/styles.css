@@ -47,3 +47,9 @@ body, html {
 .nav-divider {
   margin: 1rem 0 1.5rem;
 }
+
+.pdx-loading {
+  height: 50px !important;
+  width: 50px !important;
+}
+

@@ -1,69 +1,58 @@
 import React, { Component } from 'react';
 import { PdxLoading } from '@pagerduty/pd-react-components';
 import {
-  Row,
   Card,
-  Col,
   Container,
   Breadcrumb,
   BreadcrumbItem
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Metadata from 'src/views/Metadata';
+import { Helmet } from 'react-helmet';
 
 class SecondPage extends Component {
   constructor(props) {
     super(props);
-    this.pageTitle = 'Another Page';
     this.state = {
       loaded: false
     };
   }
 
   async componentDidMount() {
+    // await some data from the back end
+    await new Promise(resolve => setTimeout(resolve, 1000));
     this.setState({ loaded: true });
   }
 
   render() {
     return (
       <React.Fragment>
+        <Helmet>
+          <title>Another Page</title>
+        </Helmet>
 
-        <Metadata>
-          <title>{this.pageTitle}</title>
-        </Metadata>
+        <Container className="pb-4 h-100 d-flex flex-column">
+          <Breadcrumb>
+            <BreadcrumbItem><Link to="/">React Skeleton App</Link></BreadcrumbItem>
+            <BreadcrumbItem active>Another Page</BreadcrumbItem>
+          </Breadcrumb>
 
-        <div className="d-flex flex-column h-100">
-          <Container className="pb-4 pt-2 flex-grow-1 d-flex flex-column">
-            <Breadcrumb>
-              <BreadcrumbItem><Link to="/">React Skeleton App</Link></BreadcrumbItem>
-              <BreadcrumbItem active>{this.pageTitle}</BreadcrumbItem>
-            </Breadcrumb>
+          <h1 className="h1 font-weight-normal">This is Another Page</h1>
 
-            <Row>
-              <Col>
-                <h1 className="h1 font-weight-normal">{this.pageTitle}</h1>
-              </Col>
-            </Row>
+          {!this.state.loaded && (
+            <div className="flex-grow-1">
+              <PdxLoading center />
+            </div>
+          )}
 
-            <Row>
-              <Col>
-                {!this.state.loaded && (
-                  <Row>
-                    <Col>
-                      <PdxLoading center />
-                    </Col>
-                  </Row>
-                )}
-                {this.state.loaded && (
-                  <Card body>
-                    <p>This is another page.</p>
-                    <p><Link to="/">Go back</Link></p>
-                  </Card>
-                )}
-              </Col>
-            </Row>
-          </Container>
-        </div>
+          {this.state.loaded && (
+            <Card body className="flex-grow-0 mb-n1">
+              <p>This is another page.</p>
+              <p className="mb-0">
+                <Link to="/">Go back</Link>
+              </p>
+            </Card>
+          )}
+        </Container>
       </React.Fragment>
     );
   }

@@ -1,6 +1,6 @@
-describe('App', () => {
-  it('renders the not found page with no accessibility errors', () => {
-    cy.visit('/fdjskaldhjkafhjdksa');
+describe('main page', () => {
+  it('renders with no accessibility errors', () => {
+    cy.visit('/');
     cy.get('#root').should('exist');
     cy.get('.pdx-loading').should('not.exist');
     cy.injectAxe();

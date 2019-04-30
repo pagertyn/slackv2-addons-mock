@@ -2,7 +2,7 @@
   "name": "pd-react-skeleton",
   "version": "1.0.0",
   "dependencies": {
-    "@pagerduty/design-system": "^3.5.0",
+    "@pagerduty/design-system": "3.5.2",
     "@pagerduty/eslint-plugin-pagerduty": "^3.3.0",
     "@pagerduty/pd-react-components": "3.0.0-alpha.3",
     "axe-core": "3.2.2",

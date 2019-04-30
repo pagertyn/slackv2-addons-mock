@@ -7,6 +7,7 @@ import {
   PdxLoading,
   PdxNotFoundPage
 } from '@pagerduty/pd-react-components';
+import { Helmet } from 'react-helmet';
 import { fetchFeData } from 'src/features/fe-data/actions';
 import {
   redirectToSignIn,
@@ -61,6 +62,8 @@ class App extends Component {
     return (
       <BrowserRouter basename={getBaseName()}>
         <PdxLayout>
+          <Helmet defaultTitle="PagerDuty" titleTemplate="%s | PagerDuty" />
+
           {!this.state.loaded && (
             <div className="h-100">
               <PdxLoading center />
