@@ -141,5 +141,8 @@ export default {
       'enterprise'
     ]
   },
-  permissions: {}
+  permissions: {},
+  roles: [
+    'owner', 'admin', 'user', 'limited_user', 'observer', 'read_only_user', 'restricted_access', 'read_only_limited_user'
+  ]
 };

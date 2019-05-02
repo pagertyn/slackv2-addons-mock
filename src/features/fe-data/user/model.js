@@ -1,15 +1,5 @@
 import { setNamedProperties } from 'src/util/general';
 
-const ROLES = [
-  'owner',
-  'admin',
-  'user',
-  'limited_user',
-  'team_responder',
-  'read_only_user',
-  'restricted_access'
-];
-
 export default class UserModel {
   constructor(props) {
     this.id = null;
@@ -29,6 +19,7 @@ export default class UserModel {
     this.features = [];
     this.permissions = {};
     this.abilities = {};
+    this.allRoles = props.roles;
     this.setProperties(props);
   }
 
@@ -89,8 +80,8 @@ export default class UserModel {
   }
 
   _roleIsAtLeast(targetRole) {
-    const targetIndex = ROLES.indexOf(targetRole);
-    const currentIndex = ROLES.indexOf(this.get('role'));
+    const targetIndex = this.allRoles.indexOf(targetRole);
+    const currentIndex = this.allRoles.indexOf(this.get('role'));
     return (currentIndex >= 0) && (targetIndex >= currentIndex);
   }
 }
