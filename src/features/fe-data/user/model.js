@@ -29,6 +29,8 @@ export default class UserModel {
   isAdmin() { return this.role === 'admin'; }
 
   isReadOnly() { return this.role === 'read_only_user' || this.role === 'read_only_limited_user'; }
+  
+  isReadOnlyLimited() { return this.role === 'read_only_limited_user'; }
 
   isRestrictedUser() { return this.role === 'restricted_access'; }
 
