@@ -30,6 +30,8 @@ export default class UserModel {
 
   isReadOnly() { return this.role === 'read_only_user' || this.role === 'read_only_limited_user'; }
 
+  isReadOnlyLimited() { return this.role === 'read_only_limited_user'; }
+
   isRestrictedUser() { return this.role === 'restricted_access'; }
 
   isSpoofed() { return Boolean(this.spoofOrigin); }
