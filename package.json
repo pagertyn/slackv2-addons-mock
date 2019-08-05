@@ -12,7 +12,7 @@
     "cypress-axe": "0.4.0",
     "env-cmd": "9.0.3",
     "eslint-import-resolver-alias": "1.1.2",
-    "eslint-plugin-import": "2.17.2",
+    "eslint-plugin-import": "2.17.3",
     "jest-junit": "6.3.0",
     "pretender": "3.0.1",
     "react": "^16.6.3",
