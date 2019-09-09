@@ -27,11 +27,9 @@ class MainPage extends Component {
       loaded: false,
       activeTab: '1',
       slackAuth: false,
-      firstTimeThru: true,
-      workspaceTab: false,
-      channelTab: false,
-      emailSelected: true,
-      unlockTabs: false
+      step: 1,
+      unlockTabs: false,
+      unlockChannels: false
     };
   }
 
@@ -53,38 +51,33 @@ class MainPage extends Component {
     }
   }
 
-  
-
   render(props) {
     const logoStyle = {
       width: "45px",
       marginRight: "12px"
     }
-
-    const toggleAllBox = document.querySelector('input[name="MSTeamsToggleAll"]');
-    console.log(toggleAllBox);
-    const ToggleChecks = () => document.querySelector("input[name='toggleAllMSTeams']");
-
-
+  
     // Fake authorization
 
-      const fakeAuth = () => {
-        alert("Let's pretend this is a Slack authoization screen and you selected a workspace called SuperStore Inc.");
-        this.setState({
-          slackAuth: true,
-          workspaceTab: true,
-          activeTab:'2'
-        });
-        this.componentDidMount();
-      }
+    const fakeAuth = () => {
+      alert("Let's pretend this is a Slack authoization screen and you selected a workspace called SuperStore Inc.");
+      this.setState({
+        slackAuth: true,
+        unlockTabs: true,
+        step: 2,
+        activeTab:'1'
+      });
+      this.componentDidMount();
+    }
 
     // Migrate Channels Selected
 
     const migrateSelected = () => {
       this.setState({
         slackAuth: true,
-        channelTab: true,
-        activeTab:'3'
+        step: 3,
+        activeTab:'2',
+        unlockChannels: true
       });
     }
 
@@ -123,23 +116,104 @@ class MainPage extends Component {
 
               </Row>
               <Row>
-                <Col>
+                <Col className="col-9 flex-grow-1">
                   <div>
                     <p className="fs-s">
                       Welcome, {this.props.currentUser.name}!
                       {/* Text that displays if user does not have permission to edit settings. This can later flow into ability to render edit options. */}
-                      { (this.props.currentUser.role <= 2) ? ('You currently <em>do not </em> have permissions to edit MS Teams configuration for your PagerDuty account.') : ``}
-                  
+                      { (this.props.currentUser.role <= 2) ? ('You currently <em>do not </em> have permissions to edit MS Teams configuration for your PagerDuty account.') : ``}                 
                     </p>
                     <p>Here you will be able to configure your Slack workspaces, notification channels, and migrate old Slack V1 to our new integration.</p>
-                    
-
                   </div>
                 </Col>
-
               </Row>
+              <Row>
+                <Col sm="12">
+                 {/* STEP 1 of 3  */}
 
-              <Row className="mb-1">
+                { ( this.state.step === 1 ) ?
+
+                  <Row className="d-flex flex-wrap">
+                    <Col className="col-lg-12 col-12 flex-grow-1">
+                      <div className="alert alert-info" role="alert">
+                        <span className="sr-only">Slack V2 requires a bit of setup.</span>
+                        <h4 className="alert-heading"><span class="badge badge-pill badge-primary mr-1">STEP 1 of 3</span>Migrate and Upgrade Slack V1 to V2 </h4>
+                        <hr/>
+                        <p className="fs-sm">
+                          In order to make use of the new features in the updated Slack integration, PagerDuty requires additional permissions for access to your Slack workspace. These permissions also enable a seamless upgrade experience from the existing Slack application and allow you to migrate all channels on a Team-by-Team or Service-by-Service level. 
+                        </p>
+                        <p  className="fs-sm">
+                          To authorize the PagerDuty Slack V2 Integration, you must administrative privileges in PagerDuty and the ability to install applications into your Slack workspace. Once you have installed the PagerDuty Slack app to your Slack workspace, Team or Service owners will be able to initiate the migration process when they are ready.</p>
+                      
+                          <button className="btn btn-secondary mr-1" onClick={() => { fakeAuth() }}>Authorize Slack V2</button>
+                          
+                        <a  className="alert-link float-right">Another time, thanks.</a>
+                      </div>
+                    </Col>
+                    
+                  </Row>
+
+                  : console.log('not on step 1') }
+                  
+                   {/* STEP 2 of 3  */}
+
+                  { ( this.state.step === 2 ) ?
+
+                  <Row className="d-flex flex-wrap">
+                    <Col className="col-lg-12 col-12 flex-grow-1">
+                    <div className="alert alert-info" role="alert">
+                      <span className="sr-only"></span>
+                      <h4 className="alert-heading"><span class="badge badge-pill badge-primary mr-1">STEP 2 of 3</span>Success! Your workspace is authorized. </h4>
+                      <hr/>
+                      <p className="fs-sm">
+                        This PagerDuty account is now authorized to the workspaces below. You can return to this tab to manage your Workspace connections, or add additional workspace permissions at any time.
+                      </p>
+                      <p className="fs-sm">You and any Team or Service owners are now able to migrate existing PagerDuty Service's or Team's Slack channel extensions. </p>
+                    
+                        <button className="btn btn-secondary mr-1" onClick={() => { migrateSelected() }}>Migrate Channels</button>
+                        <button className="btn btn-secondary mr-1" onClick={() => { emailOwners() }}>Email the Owners</button>
+                        
+                      <a  className="alert-link float-right">I'm good for now.</a>
+                    </div>
+                    </Col>
+                  </Row>
+
+                  : console.log('not on step 2') }
+
+
+                  {/*  STEP 3 of 3  */}
+
+                  { ( this.state.step === 3 ) ?
+
+                  <Row className="d-flex flex-wrap">
+                    <Col className="col-12 flex-grow-1">
+                      <div className="alert alert-info" role="alert">
+                        <span className="sr-only"> </span>
+                        <h4 className="alert-heading">
+                          <span className="badge badge-pill badge-primary mr-1">STEP 3 of 3</span>
+                          Migrating Service Channel Connections
+                        </h4>
+                        <hr/>
+                        <p className="fs-sm">
+                          The table below lists all the PagerDuty service and Slack channel connections created through the Slack V1 extension that currently exist within the workspaces you've authorized on the <a href="#">previous tab</a>.
+                        </p>
+                        <p className="fs-sm">You and any Team or Service owners are now able to migrate existing PagerDuty Service's or Team's Slack channel extensions. </p>
+                      </div>
+                    </Col>
+                  </Row>
+
+
+                  : console.log('not on step 3') }
+
+
+
+
+
+
+                </Col>
+              </Row>
+          { this.state.unlockTabs ?  
+              <div><Row className="mb-1">
                 <Col>
                   <Nav className="nav-underlines nav">
                     <NavItem>
@@ -147,18 +221,8 @@ class MainPage extends Component {
                         Workspaces
                       </RouterNavLink> */}
                       <NavLink
-                        className={classnames({ active:  this.state.activeTab === '1' })}
+                        className={classnames({ active: this.state.activeTab === '1' })}
                         onClick={() => { this.toggle('1'); }}>
-                        Migration
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      {/* <RouterNavLink to="#" className="nav-link active">
-                        Workspaces
-                      </RouterNavLink> */}
-                      <NavLink
-                        className={classnames({ active: this.state.activeTab === '2', disabled: this.state.workspaceTab === false })}
-                        onClick={() => { this.toggle('2'); }}>
                         Workspaces
                       </NavLink>
                     </NavItem>
@@ -167,52 +231,23 @@ class MainPage extends Component {
                         Service Channels
                       </RouterNavLink> */}
                       <NavLink
-                        className={classnames({ active: this.state.activeTab === '3', disabled: this.state.channelTab === false })}
-                        onClick={() => { this.toggle('3'); }}>
+                        className={classnames({ active: this.state.activeTab === '2', disabled: this.state.unlockChannels === false })}
+                        onClick={() => { this.toggle('2'); }}>
                         Service Channels
                       </NavLink>
                     </NavItem>
                   </Nav>
                 </Col>
               </Row>
+
+
               <Row>
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
-                    <div className="alert alert-success" role="alert">
-                      <span className="sr-only">Slack V2 requires a bit of setup.</span>
-                      <h4 className="alert-heading"><span class="badge badge-pill badge-success mr-1">STEP 1 of 3</span>  Migrate and Upgrade Slack V1 to V2 </h4>
-                      <hr/>
-                      <p className="fs-sm">
-                        In order to make use of the new features in the updated Slack integration, PagerDuty requires additional permissions for access to your Slack workspace. These permissions also enable a seamless upgrade experience from the existing Slack application and allow you to migrate all channels on a Team-by-Team or Service-by-Service level. 
-                      </p>
-                      <p  className="fs-sm">
-                        To authorize the PagerDuty Slack V2 Integration, you must administrative privileges in PagerDuty and the ability to install applications into your Slack workspace. Once you have installed the PagerDuty Slack app to your Slack workspace, Team or Service owners will be able to initiate the migration process when they are ready.</p>
-                    
-                        <button className="btn btn-primary mr-1" onClick={() => { fakeAuth() }}>Authorize Slack V2</button>
-                        
-                      <a  className="alert-link float-right">Another time, thanks.</a>
-                    </div>
-
-                  </TabPane>
-                  <TabPane tabId="2">
-                    <Row>
+                  <Row>
                       <Col sm="12">
                       <Row className="d-flex flex-wrap">
                         <Col className="col-lg-9 col-12 flex-grow-1">
-                        <div className="alert alert-success" role="alert">
-                          <span className="sr-only"></span>
-                          <h4 className="alert-heading"><span class="badge badge-pill badge-success mr-1">STEP 2 of 3</span>  Success!</h4>
-                          <hr/>
-                          <p className="fs-sm">
-                            This PagerDuty account is now authorized to the workspaces below. You can return to this tab to manage your Workspace connections, or add additional workspace permissions at any time.
-                          </p>
-                          <p className="fs-sm">You and any Team or Service owners are now able to migrate existing PagerDuty Service's or Team's Slack channel extensions. </p>
-                        
-                            <button className="btn btn-primary mr-1" onClick={() => { migrateSelected() }}>Migrate Channels</button>
-                            <button className="btn btn-primary mr-1" onClick={() => { emailOwners() }}>Email the Owners</button>
-                            
-                          <a  className="alert-link float-right">I'm good for now.</a>
-                        </div>
                           <Card body className="mb-lg-2 mb-1">
                             <CardTitle tag="h2">Slack Workspaces</CardTitle>
                             <table className="table table-hover">
@@ -239,43 +274,26 @@ class MainPage extends Component {
                           </Card>
                         </Col>
                         <Col className="col-lg-3 col-12 mb-2 flex-grow-1 mb-1">
-                          <p className="ml-1">What is a Slack Workspace?</p>
-                          <p className="ml-1 fs-sm">A Slack Workspace is a shared hub made up of channels where a team or organization's members can communicate and work together. Previously, V1 webhooks only connected to specified channels within your workspace. V2 links your PagerDuty account to the entire workspace, enabling better cross-channel communication and a variety of new features. Learn more <a href="#">here</a>.</p>
+                          <p className="">What is a Slack Workspace?</p>
+                          <p className=" fs-sm">A Slack Workspace is a shared hub made up of channels where a team or organization's members can communicate and work together. Previously, V1 webhooks only connected to specified channels within your workspace. V2 links your PagerDuty account to the entire workspace, enabling better cross-channel communication and a variety of new features. Learn more <a href="#">here</a>.</p>
                         </Col>
                       </Row>
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId="3">
-                    <Row className="d-flex flex-wrap">
-                      <Col className="col-9 flex-grow-1">
-                        <div className="alert alert-success" role="alert">
-                          <span className="sr-only"> </span>
-                          <h4 className="alert-heading">
-                            <span className="badge badge-pill badge-success mr-1">STEP 3 of 3</span>
-                            Migrating Service Channel Connections
-                          </h4>
-                          <hr/>
-                          <p className="fs-sm">
-                            The table below lists all the PagerDuty service and Slack channel connections created through the Slack V1 extension that currently exist within the workspaces you've authorized on the <a href="#">previous tab</a>.
-                          </p>
-                          <p className="fs-sm">You and any Team or Service owners are now able to migrate existing PagerDuty Service's or Team's Slack channel extensions. </p>
-                        </div>
-                      </Col>
-                      <Col className="col-lg-3 col-12 mb-2 flex-grow-1 mb-1">
-                        <p className="ml-1">What is a Service Channel?</p>
-                        <p className="ml-1 fs-sm">A service channel represents the connection between a PagerDuty service and a slack channel. It is the channel where interactive notifications will be pushed to, and from where you can take action on those incidents from within Slack.</p>
-                      </Col>
-                      </Row>
+
+
+
+                  <TabPane tabId="2">
                       <Row>
-                        <Col>
+                        <Col className="col-12 flex-grow-1">
                           <Card body className="mb-lg-2 mb-1">
                             <CardTitle tag="h2">Service Channels</CardTitle>
                             <table className="table table-hover">
                               <caption className="sr-only">Table for managing which MS Teams the PagerDuty integration is installed on.</caption>
                               <thead>
                                 <tr>
-                                  <th scope="col"><input type="checkbox" name="toggleAllMSTeams" value="toggleAll"/></th>
+                                  <th scope="col"><input type="checkbox" name="toggleAllMSTeams" value="" onClick={() => { this.toggleChecks() }}/></th>
                                   <th scope="col">PD Team</th>
                                   <th scope="col">PD Service</th>
                                   <th scope="col">Slack Workspace</th>
@@ -359,11 +377,14 @@ class MainPage extends Component {
                               </Col>
                             </Row>
                           </Card>
-                        </Col>          
+                        </Col>
+            
                       </Row>
                   </TabPane>
                 </TabContent>
               </Row>
+              </div>
+              : console.log("nothing") }
             </div>
           )}
         </Container>

@@ -149,8 +149,8 @@ class MainPage extends Component {
                   </Card>
                 </Col>
                 <Col className="col-lg-3 col-12 mb-2 flex-grow-1 mb-1">
-                  <p className="ml-1">What is a Slack Workspace?</p>
-                  <p className="ml-1 fs-sm">A Slack Workspace is a shared hub made up of channels where a team or organization's members can communicate and work together. Previously, V1 webhooks only connected to specified channels within your workspace. V2 links your PagerDuty account to the entire workspace, enabling better cross-channel communication and a variety of new features. Learn more <a href="#">here</a>.</p>
+                  <p className="">What is a Slack Workspace?</p>
+                  <p className="fs-sm">A Slack Workspace is a shared hub made up of channels where a team or organization's members can communicate and work together. Previously, V1 webhooks only connected to specified channels within your workspace. V2 links your PagerDuty account to the entire workspace, enabling better cross-channel communication and a variety of new features. Learn more <a href="#">here</a>.</p>
                 </Col>
               </Row>
               <Row className="d-flex flex-wrap">
@@ -245,6 +245,10 @@ class MainPage extends Component {
                       </Col>
                     </Row>
                   </Card>
+                </Col>
+                <Col className="col-lg-12 col-12 mb-2 flex-grow-1 mb-1">
+                        <p className="">What is a Service Channel?</p>
+                        <p className=" fs-sm">A service channel represents the connection between a PagerDuty service and a slack channel. It is the channel where interactive notifications will be pushed to, and from where you can take action on those incidents from within Slack.</p>
                 </Col>
                 
               </Row>
